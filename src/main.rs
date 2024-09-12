@@ -1,3 +1,12 @@
+use std::ptr::NonNull;
+
+use delegate::Delegate;
+use objc2::ClassType;
+use objc2_foundation::{MainThreadMarker, NSStringFromClass};
+use objc2_ui_kit::UIApplicationMain;
+
+mod delegate;
+
 fn main() {
     // Emit logging to either OSLog or stderr, depending on if using Mac
     // Catalyst or native.
@@ -16,5 +25,13 @@ fn main() {
             .unwrap();
     }
 
-    println!("Hello, world!");
+    let _ = MainThreadMarker::new().unwrap();
+    unsafe {
+        UIApplicationMain(
+            *libc::_NSGetArgc(),
+            NonNull::new(*libc::_NSGetArgv()).unwrap(),
+            None,
+            Some(NSStringFromClass(Delegate::class()).as_ref()),
+        );
+    }
 }

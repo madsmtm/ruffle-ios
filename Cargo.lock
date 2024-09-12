@@ -2876,6 +2876,7 @@ dependencies = [
  "dirs",
  "flv-rs",
  "fontdb",
+ "libc",
  "log",
  "objc2",
  "objc2-foundation",

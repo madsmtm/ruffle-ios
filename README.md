@@ -13,3 +13,9 @@ Run on Mac Catalyst with:
 ```
 cargo +nightly bundle --target=aarch64-apple-ios-macabi && ./target/aarch64-apple-ios-macabi/debug/bundle/ios/Ruffle.app/ruffle-ios
 ```
+
+## GUI
+
+- Button for opening keyboard, maybe?
+- Make sure to respect safe area
+- Where do we put the "play, rewind, forward, back, etc." menu?
