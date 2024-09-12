@@ -1,0 +1,44 @@
+[package]
+name = "ruffle-ios"
+version = "0.1.0"
+authors = ["Mads Marquart <mads@marquart.com>"]
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+objc2 = "0.5.2"
+objc2-foundation = { version = "0.2.2", features = ["all"] }
+objc2-ui-kit = { version = "0.2.2", features = ["all"] }
+objc2-metal = { version = "0.2.2", features = ["all"] }
+objc2-quartz-core = { version = "0.2.2", features = ["all"] }
+wgpu = "22.1.0"
+ruffle_core = { path = "../ruffle/core", features = [
+    "audio",
+    "symphonia",
+    "mp3",
+    "nellymoser",
+    "lzma",
+    "default_compatibility_rules",
+    "default_font",
+] }
+ruffle_render = { path = "../ruffle/render" }
+ruffle_render_wgpu = { path = "../ruffle/render/wgpu" }
+ruffle_video = { path = "../ruffle/video" }
+ruffle_video_software = { path = "../ruffle/video/software" }
+ruffle_frontend_utils = { path = "../ruffle/frontend-utils" }
+flv-rs = { path = "../ruffle/flv" }
+# cpal = "0.15.3"
+fontdb = "0.21"
+dirs = "5.0"
+url = "2.5.2"
+webbrowser = "1.0.1"
+sys-locale = "0.3.1"
+tokio = { version = "1.40.0", features = ["rt-multi-thread", "macros"] }
+
+# Redirect tracing to OSLog via. log
+tracing = { version = "0.1.40", features = ["log", "log-always"] }
+oslog = "0.2.0"
+
+[package.metadata.bundle]
+name = "Ruffle"
+identifier = "rs.ruffle.ios-dev"
