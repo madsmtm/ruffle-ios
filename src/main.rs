@@ -6,6 +6,7 @@ use objc2_foundation::{MainThreadMarker, NSStringFromClass};
 use objc2_ui_kit::UIApplicationMain;
 
 mod delegate;
+mod ruffle_view;
 
 fn main() {
     // Emit logging to either OSLog or stderr, depending on if using Mac

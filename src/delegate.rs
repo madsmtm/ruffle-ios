@@ -5,6 +5,8 @@ use objc2::{declare_class, msg_send_id, mutability, ClassType, DeclaredClass};
 use objc2_foundation::{MainThreadMarker, NSObject, NSObjectProtocol};
 use objc2_ui_kit::{UIApplication, UIApplicationDelegate, UIScreen, UIViewController, UIWindow};
 
+use crate::ruffle_view::RuffleView;
+
 declare_class!(
     #[derive(Debug)]
     pub struct ViewController;
@@ -79,6 +81,10 @@ impl Delegate {
         let window = unsafe { UIWindow::initWithFrame(mtm.alloc(), frame) };
 
         let view_controller = ViewController::new(mtm);
+
+        let view = RuffleView::new(mtm, frame);
+        view_controller.setView(Some(&view));
+
         window.setRootViewController(Some(&view_controller));
 
         window.makeKeyAndVisible();

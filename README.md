@@ -19,3 +19,21 @@ cargo +nightly bundle --target=aarch64-apple-ios-macabi && ./target/aarch64-appl
 - Button for opening keyboard, maybe?
 - Make sure to respect safe area
 - Where do we put the "play, rewind, forward, back, etc." menu?
+- How do we do scaling? Should the user be able to zoom?
+- Inputs:
+  - Configurable?
+  - Swipe for arrow keys?
+  - https://openemu.org/ does it pretty well, equivalent for iOS?
+- UI: https://getutm.app/ has an interface at the top
+  - That's hard to reach tho
+- Game library?
+
+Plan:
+1. Get the Ruffle UI running in a `UIView`
+2. Wire up some way to start it using an SWF on the local device
+
+
+## Choices
+
+- Intentionally use `public.app-category.games` to get better performance ("Game Mode" on macOS).
+  - This is not necessarily the correct choice for Ruffle, but it's the closest.

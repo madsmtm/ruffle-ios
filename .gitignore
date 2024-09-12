@@ -1,1 +1,10 @@
+# Rust
 /target
+
+# Xcode user settings
+xcuserdata/
+
+# Xcode app packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
