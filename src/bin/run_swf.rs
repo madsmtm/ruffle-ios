@@ -51,6 +51,8 @@ declare_class!(
 
 impl AppDelegate {
     fn setup(&self) {
+        let movie_url = std::env::args().skip(1).next();
+        let movie_url = movie_url.expect("must provide a path or URL to an SWF to run");
         let mtm = MainThreadMarker::from(self);
 
         #[allow(deprecated)] // Unsure how else we should do this when setting up?
@@ -58,7 +60,7 @@ impl AppDelegate {
 
         let window = unsafe { UIWindow::initWithFrame(mtm.alloc(), frame) };
 
-        let view_controller = PlayerController::new(mtm);
+        let view_controller = PlayerController::new(mtm, movie_url);
         window.setRootViewController(Some(&view_controller));
 
         window.makeKeyAndVisible();
@@ -70,7 +72,8 @@ impl AppDelegate {
     }
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     init_logging();
     launch(None, Some(AppDelegate::class()));
 }

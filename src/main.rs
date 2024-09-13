@@ -1,7 +1,8 @@
 use objc2::ClassType;
 use ruffle_ios::{init_logging, launch, AppDelegate, PlayerController, PlayerView};
 
-fn main() {
+#[tokio::main]
+async fn main() {
     init_logging();
 
     // Initialize classes defined in Rust

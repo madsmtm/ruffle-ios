@@ -1,9 +1,18 @@
-use objc2::rc::Retained;
-use objc2::{declare_class, msg_send_id, mutability, ClassType, DeclaredClass};
-use objc2_foundation::{CGRect, CGSize, MainThreadMarker, NSObjectProtocol};
-use objc2_ui_kit::UIView;
+use std::cell::OnceCell;
+use std::sync::{Arc, Mutex, MutexGuard};
 
-pub struct Ivars {}
+use objc2::rc::Retained;
+use objc2::runtime::AnyClass;
+use objc2::{declare_class, msg_send_id, mutability, ClassType, DeclaredClass};
+use objc2_foundation::{CGRect, MainThreadMarker, NSObjectProtocol};
+use objc2_quartz_core::{CALayer, CALayerDelegate, CAMetalLayer};
+use objc2_ui_kit::{UIView, UIViewContentMode};
+use ruffle_core::{Player, ViewportDimensions};
+
+#[derive(Default)]
+pub struct Ivars {
+    player: OnceCell<Arc<Mutex<Player>>>,
+}
 
 declare_class!(
     pub struct PlayerView;
@@ -21,21 +30,31 @@ declare_class!(
     unsafe impl NSObjectProtocol for PlayerView {}
 
     unsafe impl PlayerView {
-        #[method(drawRect:)]
-        fn draw_rect(&self, _rect: CGRect) {
-            tracing::debug!("triggered `drawRect:`");
-            // No need to call super, it does nothing on `UIView`.
+        #[method(layerClass)]
+        fn layer_class() -> &AnyClass {
+            CAMetalLayer::class()
+        }
+    }
+
+    // We implement the layer delegate instead of the usual `drawRect:` and
+    // `layoutSubviews` methods, since we use a custom `layerClass`, and then
+    // UIView won't call those methods.
+    //
+    // The view is automatically set as the layer's delegate.
+    unsafe impl CALayerDelegate for PlayerView {
+        #[method(displayLayer:)]
+        fn _display_layer(&self, _layer: &CALayer) {
+            self.draw_rect();
         }
 
-        // `layoutSubviews` is the recommended way to listen for changes to
-        // the view's frame. Also tracks changes to the backing scale factor.
-        #[method(layoutSubviews)]
-        fn layout_subviews(&self) {
-            let new_size = scaled_view_frame(self);
-            tracing::debug!("triggered `layoutSubviews`, new_size: {:?}", new_size);
-            // Calling super here is not really necessary, as we have no
-            // subviews, but we do it anyway just to make sure.
-            let _: () = unsafe { objc2::msg_send![super(self), layoutSubviews] };
+        // This is the recommended way to listen for changes to the layer's
+        // frame. Also tracks changes to the backing scale factor.
+        //
+        // It may be called at other times though, so we check the configured
+        // size in `resize` first to avoid unnecessary work.
+        #[method(layoutSublayersOfLayer:)]
+        fn _layout_sublayers_of_layer(&self, _layer: &CALayer) {
+            self.resize();
         }
     }
 );
@@ -43,23 +62,61 @@ declare_class!(
 impl PlayerView {
     pub fn new(mtm: MainThreadMarker, frame_rect: CGRect) -> Retained<Self> {
         // Create view
-        let view = mtm.alloc().set_ivars(Ivars {});
+        let view = mtm.alloc().set_ivars(Ivars::default());
         let view: Retained<Self> = unsafe { msg_send_id![super(view), initWithFrame: frame_rect] };
 
         // Ensure that the view calls `drawRect:` after being resized
-        unsafe {
-            view.setContentMode(objc2_ui_kit::UIViewContentMode::Redraw);
-        }
+        unsafe { view.setContentMode(UIViewContentMode::Redraw) };
 
         view
     }
-}
 
-fn scaled_view_frame(view: &UIView) -> CGSize {
-    let size = view.frame().size;
-    let scale_factor = view.contentScaleFactor();
-    CGSize {
-        width: size.width * scale_factor,
-        height: size.height * scale_factor,
+    pub fn set_player(&self, player: Arc<Mutex<Player>>) {
+        self.ivars()
+            .player
+            .set(player)
+            .unwrap_or_else(|_| panic!("only init player once"));
+    }
+
+    #[track_caller]
+    fn player_lock(&self) -> MutexGuard<'_, Player> {
+        self.ivars()
+            .player
+            .get()
+            .expect("player initialized")
+            .lock()
+            .expect("player lock")
+    }
+
+    fn resize(&self) {
+        tracing::info!("resizing to {:?}", self.frame().size);
+        let new_dimensions = self.viewport_dimensions();
+
+        let mut player_lock = self.player_lock();
+        // Avoid unnecessary resizes
+        let old_dimensions = player_lock.viewport_dimensions();
+        if new_dimensions.height != old_dimensions.height
+            || new_dimensions.width != old_dimensions.width
+            || new_dimensions.scale_factor != old_dimensions.scale_factor
+        {
+            player_lock.set_viewport_dimensions(new_dimensions);
+        }
+    }
+
+    fn draw_rect(&self) {
+        tracing::info!("drawing");
+        self.player_lock().tick(0.5);
+        self.player_lock().run_frame();
+        self.player_lock().render();
+    }
+
+    pub fn viewport_dimensions(&self) -> ViewportDimensions {
+        let size = self.frame().size;
+        let scale_factor = self.contentScaleFactor();
+        ViewportDimensions {
+            width: (size.width * scale_factor) as u32,
+            height: (size.height * scale_factor) as u32,
+            scale_factor: scale_factor as f64,
+        }
     }
 }

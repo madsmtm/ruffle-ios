@@ -16,7 +16,7 @@ pub fn init_logging() {
     // Emit logging to either OSLog or stderr, depending on if using Mac
     // Catalyst or native.
     // TODO: If running Mac Catalyst under Xcode
-    let filter = log::LevelFilter::Debug;
+    let filter = log::LevelFilter::Info;
     if cfg!(target_abi = "macabi") {
         simple_logger::SimpleLogger::new()
             .with_level(filter)
