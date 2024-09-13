@@ -15,9 +15,6 @@
 		EC3BA0BC2C93A6CB0072939D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC3BA0BB2C93A6CB0072939D /* Assets.xcassets */; };
 		EC3BA0BF2C93A6CB0072939D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = EC3BA0BE2C93A6CB0072939D /* Base */; };
 		EC3BA0C22C93A6CB0072939D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3BA0C12C93A6CB0072939D /* main.m */; };
-		EC3BA0CA2C93A87E0072939D /* src in Resources */ = {isa = PBXBuildFile; fileRef = EC3BA0C92C93A87E0072939D /* src */; };
-		EC3BA0CE2C93A8890072939D /* Cargo.toml in Resources */ = {isa = PBXBuildFile; fileRef = EC3BA0CC2C93A8890072939D /* Cargo.toml */; };
-		ECEA01D92C944E5800C9D3D6 /* Cargo.lock in Resources */ = {isa = PBXBuildFile; fileRef = EC3BA0CB2C93A8890072939D /* Cargo.lock */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,12 +144,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC3BA0CE2C93A8890072939D /* Cargo.toml in Resources */,
-				ECEA01D92C944E5800C9D3D6 /* Cargo.lock in Resources */,
 				EC3BA0BC2C93A6CB0072939D /* Assets.xcassets in Resources */,
 				EC3BA0BF2C93A6CB0072939D /* Base in Resources */,
 				EC3BA0B72C93A6CA0072939D /* Base in Resources */,
-				EC3BA0CA2C93A87E0072939D /* src in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

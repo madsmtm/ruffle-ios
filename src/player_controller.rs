@@ -7,7 +7,7 @@ use std::sync::{Arc, Mutex, MutexGuard};
 
 use objc2::rc::Retained;
 use objc2::{declare_class, msg_send, msg_send_id, mutability, ClassType, DeclaredClass};
-use objc2_foundation::{CGRect, MainThreadMarker, NSObjectProtocol};
+use objc2_foundation::{CGPoint, CGRect, CGSize, MainThreadMarker, NSObjectProtocol};
 use objc2_ui_kit::UIViewController;
 use ruffle_core::config::Letterbox;
 use ruffle_core::tag_utils::SwfMovie;
@@ -15,7 +15,6 @@ use ruffle_core::{Player, PlayerBuilder};
 use ruffle_frontend_utils::backends::executor::{AsyncExecutor, PollRequester};
 use ruffle_frontend_utils::backends::navigator::{ExternalNavigatorBackend, NavigatorInterface};
 use ruffle_frontend_utils::content::PlayingContent;
-use ruffle_render_wgpu::backend::WgpuRenderBackend;
 use url::Url;
 
 use crate::player_view::PlayerView;
@@ -114,7 +113,10 @@ impl PlayerController {
     fn load_view(&self) {
         tracing::info!("loadView");
         let mtm = MainThreadMarker::from(self);
-        let view = PlayerView::new(mtm, CGRect::default());
+        let view = PlayerView::initWithFrame(
+            mtm.alloc(),
+            CGRect::new(CGPoint::ZERO, CGSize::new(1.0, 1.0)),
+        );
         self.setView(Some(&view));
     }
 
@@ -123,18 +125,7 @@ impl PlayerController {
 
         // TODO: Specify safe area somehow
         let view = self.view();
-        let layer = view.layer();
-        let layer_ptr = Retained::as_ptr(&layer).cast_mut().cast();
-        let renderer = unsafe {
-            WgpuRenderBackend::for_window_unsafe(
-                wgpu::SurfaceTargetUnsafe::CoreAnimationLayer(layer_ptr),
-                (1, 1),
-                wgpu::Backends::METAL,
-                wgpu::PowerPreference::HighPerformance,
-                None,
-            )
-            .expect("creating renderer")
-        };
+        let renderer = view.create_renderer();
 
         let sender = EventSender(Rc::new(OnceCell::new()));
         let (executor, future_spawner) = AsyncExecutor::new(sender.clone());

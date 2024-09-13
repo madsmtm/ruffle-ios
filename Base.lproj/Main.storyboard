@@ -36,15 +36,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <imageView key="tableHeaderView" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pencil" catalog="system" id="Byw-RA-oxe">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="38.999999999999993"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="qwq-LQ-yFa" customClass="LogoView">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="100"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" systemColor="systemBlueColor"/>
+                        </view>
                         <sections>
-                            <tableViewSection id="2h6-36-U8S">
+                            <tableViewSection headerTitle="Library" id="2h6-36-U8S">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="library-item" textLabel="5rA-Fn-Y5K" detailTextLabel="ClG-zt-IDB" style="IBUITableViewCellStyleValue1" id="Stx-t4-h9b">
-                                        <rect key="frame" x="0.0" y="89" width="393" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="150" width="393" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Stx-t4-h9b" id="g8L-iE-zUM">
                                             <rect key="frame" x="0.0" y="0.0" width="362.66666666666669" height="43.666667938232422"/>
@@ -79,7 +80,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Library" id="wmY-4r-Pvd">
+                    <navigationItem key="navigationItem" id="wmY-4r-Pvd">
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="hjl-Rh-wCo"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="4wX-a8-qE5"/>
                     </navigationItem>
@@ -89,10 +90,10 @@
             </objects>
             <point key="canvasLocation" x="91" y="289"/>
         </scene>
-        <!--Movie Controller-->
+        <!--View Controller-->
         <scene sceneID="I55-cc-16h">
             <objects>
-                <viewController id="ClQ-AD-lw4" userLabel="Movie Controller" customClass="PlayerViewController" sceneMemberID="viewController">
+                <viewController id="ClQ-AD-lw4" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2gc-yi-JaB" customClass="PlayerView">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -110,9 +111,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="pencil" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

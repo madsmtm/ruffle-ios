@@ -5,10 +5,12 @@ use objc2_foundation::{MainThreadMarker, NSStringFromClass};
 use objc2_ui_kit::UIApplicationMain;
 
 mod app_delegate;
+mod logo_view;
 mod player_controller;
 mod player_view;
 
 pub use self::app_delegate::AppDelegate;
+pub use self::logo_view::LogoView;
 pub use self::player_controller::PlayerController;
 pub use self::player_view::PlayerView;
 

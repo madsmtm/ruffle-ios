@@ -1,13 +1,15 @@
 use std::cell::OnceCell;
 use std::sync::{Arc, Mutex, MutexGuard};
 
-use objc2::rc::Retained;
+use objc2::rc::{Allocated, Retained};
 use objc2::runtime::AnyClass;
 use objc2::{declare_class, msg_send_id, mutability, ClassType, DeclaredClass};
-use objc2_foundation::{CGRect, MainThreadMarker, NSObjectProtocol};
+use objc2_foundation::{CGRect, NSObjectProtocol};
 use objc2_quartz_core::{CALayer, CALayerDelegate, CAMetalLayer};
 use objc2_ui_kit::{UIView, UIViewContentMode};
 use ruffle_core::{Player, ViewportDimensions};
+use ruffle_render_wgpu::backend::WgpuRenderBackend;
+use ruffle_render_wgpu::target::SwapChainTarget;
 
 #[derive(Default)]
 pub struct Ivars {
@@ -30,6 +32,11 @@ declare_class!(
     unsafe impl NSObjectProtocol for PlayerView {}
 
     unsafe impl PlayerView {
+        #[method_id(initWithFrame:)]
+        fn _init_with_frame(this: Allocated<Self>, frame: CGRect) -> Retained<Self> {
+            Self::init_with_frame(this, frame)
+        }
+
         #[method(layerClass)]
         fn layer_class() -> &AnyClass {
             CAMetalLayer::class()
@@ -60,15 +67,17 @@ declare_class!(
 );
 
 impl PlayerView {
-    pub fn new(mtm: MainThreadMarker, frame_rect: CGRect) -> Retained<Self> {
-        // Create view
-        let view = mtm.alloc().set_ivars(Ivars::default());
-        let view: Retained<Self> = unsafe { msg_send_id![super(view), initWithFrame: frame_rect] };
+    #[allow(non_snake_case)]
+    pub fn initWithFrame(this: Allocated<Self>, frame_rect: CGRect) -> Retained<Self> {
+        unsafe { msg_send_id![this, initWithFrame: frame_rect] }
+    }
 
+    fn init_with_frame(this: Allocated<Self>, frame: CGRect) -> Retained<Self> {
+        let this = this.set_ivars(Ivars::default());
+        let this: Retained<Self> = unsafe { msg_send_id![super(this), initWithFrame: frame] };
         // Ensure that the view calls `drawRect:` after being resized
-        unsafe { view.setContentMode(UIViewContentMode::Redraw) };
-
-        view
+        unsafe { this.setContentMode(UIViewContentMode::Redraw) };
+        this
     }
 
     pub fn set_player(&self, player: Arc<Mutex<Player>>) {
@@ -79,7 +88,7 @@ impl PlayerView {
     }
 
     #[track_caller]
-    fn player_lock(&self) -> MutexGuard<'_, Player> {
+    pub fn player_lock(&self) -> MutexGuard<'_, Player> {
         self.ivars()
             .player
             .get()
@@ -117,6 +126,22 @@ impl PlayerView {
             width: (size.width * scale_factor) as u32,
             height: (size.height * scale_factor) as u32,
             scale_factor: scale_factor as f64,
+        }
+    }
+
+    pub fn create_renderer(&self) -> WgpuRenderBackend<SwapChainTarget> {
+        let layer = self.layer();
+        let dimensions = self.viewport_dimensions();
+        let layer_ptr = Retained::as_ptr(&layer).cast_mut().cast();
+        unsafe {
+            WgpuRenderBackend::for_window_unsafe(
+                wgpu::SurfaceTargetUnsafe::CoreAnimationLayer(layer_ptr),
+                (dimensions.width, dimensions.height),
+                wgpu::Backends::METAL,
+                wgpu::PowerPreference::HighPerformance,
+                None,
+            )
+            .expect("creating renderer")
         }
     }
 }
