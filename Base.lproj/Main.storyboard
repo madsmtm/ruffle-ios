@@ -16,9 +16,12 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="0pP-9o-gnN">
                         <rect key="frame" x="0.0" y="59" width="393" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="ruffle-blue-6"/>
+                        <color key="barTintColor" name="ruffle-blue-6"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="I2C-en-ZLE">
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="ruffle-blue-9"/>
                     </toolbar>
                     <connections>
                         <segue destination="jhe-Vq-qF4" kind="relationship" relationship="rootViewController" id="V8A-Bl-ddv"/>
@@ -118,6 +121,9 @@
     <resources>
         <namedColor name="ruffle-blue">
             <color red="0.21568627450980393" green="0.32156862745098042" blue="0.5490196078431373" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ruffle-blue-6">
+            <color red="0.32156862745098042" green="0.44313725490196076" blue="0.71372549019607845" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ruffle-blue-9">
             <color red="0.17254901960784313" green="0.28627450980392155" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
