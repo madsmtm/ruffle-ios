@@ -1,6 +1,6 @@
 use objc2::rc::{Allocated, Retained};
 use objc2::{declare_class, msg_send_id, mutability, ClassType, DeclaredClass};
-use objc2_foundation::{ns_string, CGRect, NSObjectProtocol};
+use objc2_foundation::{ns_string, CGRect, NSCoder, NSObjectProtocol};
 use objc2_ui_kit::{NSDataAsset, UIColor};
 use ruffle_core::config::Letterbox;
 use ruffle_core::tag_utils::SwfMovie;
@@ -8,7 +8,7 @@ use ruffle_core::PlayerBuilder;
 
 use crate::player_view::PlayerView;
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct Ivars {}
 
 declare_class!(
@@ -29,7 +29,18 @@ declare_class!(
     unsafe impl LogoView {
         #[method_id(initWithFrame:)]
         fn _init_with_frame(this: Allocated<Self>, frame: CGRect) -> Retained<Self> {
-            Self::init_with_frame(this, frame)
+            let this = this.set_ivars(Ivars::default());
+            let this: Retained<Self> = unsafe { msg_send_id![super(this), initWithFrame: frame] };
+            this.init();
+            this
+        }
+
+        #[method_id(initWithCoder:)]
+        fn _init_with_coder(this: Allocated<Self>, coder: &NSCoder) -> Retained<Self> {
+            let this = this.set_ivars(Ivars::default());
+            let this: Retained<Self> = unsafe { msg_send_id![super(this), initWithCoder: coder] };
+            this.init();
+            this
         }
     }
 );
@@ -44,7 +55,7 @@ impl Drop for LogoView {
 }
 
 impl LogoView {
-    fn init_with_frame(this: Allocated<Self>, frame: CGRect) -> Retained<Self> {
+    fn init(&self) {
         let asset =
             unsafe { NSDataAsset::initWithName(NSDataAsset::alloc(), ns_string!("logo-anim")) }
                 .expect("asset store should contain logo-anim");
@@ -52,10 +63,7 @@ impl LogoView {
         let movie = SwfMovie::from_data(data.bytes(), "file://logo-anim.swf".into(), None)
             .expect("loading movie");
 
-        let this = this.set_ivars(Ivars {});
-        let this: Retained<Self> = unsafe { msg_send_id![super(this), initWithFrame: frame] };
-
-        let renderer = this.create_renderer();
+        let renderer = self.create_renderer();
 
         let player = PlayerBuilder::new()
             .with_renderer(renderer)
@@ -69,10 +77,8 @@ impl LogoView {
 
         let bg_color =
             unsafe { UIColor::colorNamed(ns_string!("ruffle-blue")) }.expect("ruffle blue");
-        this.setBackgroundColor(Some(&bg_color));
+        self.setBackgroundColor(Some(&bg_color));
 
-        this.set_player(player);
-
-        this
+        self.set_player(player);
     }
 }

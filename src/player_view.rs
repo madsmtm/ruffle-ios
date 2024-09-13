@@ -4,7 +4,7 @@ use std::sync::{Arc, Mutex, MutexGuard};
 use objc2::rc::{Allocated, Retained};
 use objc2::runtime::AnyClass;
 use objc2::{declare_class, msg_send_id, mutability, ClassType, DeclaredClass};
-use objc2_foundation::{CGRect, NSObjectProtocol};
+use objc2_foundation::{CGRect, NSCoder, NSObjectProtocol};
 use objc2_quartz_core::{CALayer, CALayerDelegate, CAMetalLayer};
 use objc2_ui_kit::{UIView, UIViewContentMode};
 use ruffle_core::{Player, ViewportDimensions};
@@ -34,7 +34,18 @@ declare_class!(
     unsafe impl PlayerView {
         #[method_id(initWithFrame:)]
         fn _init_with_frame(this: Allocated<Self>, frame: CGRect) -> Retained<Self> {
-            Self::init_with_frame(this, frame)
+            let this = this.set_ivars(Ivars::default());
+            let this: Retained<Self> = unsafe { msg_send_id![super(this), initWithFrame: frame] };
+            this.init();
+            this
+        }
+
+        #[method_id(initWithCoder:)]
+        fn _init_with_coder(this: Allocated<Self>, coder: &NSCoder) -> Retained<Self> {
+            let this = this.set_ivars(Ivars::default());
+            let this: Retained<Self> = unsafe { msg_send_id![super(this), initWithCoder: coder] };
+            this.init();
+            this
         }
 
         #[method(layerClass)]
@@ -72,12 +83,9 @@ impl PlayerView {
         unsafe { msg_send_id![this, initWithFrame: frame_rect] }
     }
 
-    fn init_with_frame(this: Allocated<Self>, frame: CGRect) -> Retained<Self> {
-        let this = this.set_ivars(Ivars::default());
-        let this: Retained<Self> = unsafe { msg_send_id![super(this), initWithFrame: frame] };
+    fn init(&self) {
         // Ensure that the view calls `drawRect:` after being resized
-        unsafe { this.setContentMode(UIViewContentMode::Redraw) };
-        this
+        unsafe { self.setContentMode(UIViewContentMode::Redraw) };
     }
 
     pub fn set_player(&self, player: Arc<Mutex<Player>>) {
