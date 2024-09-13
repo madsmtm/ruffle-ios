@@ -46,3 +46,7 @@ libc = "0.2.158"
 [package.metadata.bundle.bin.run_swf]
 name = "Ruffle"
 identifier = "rs.ruffle.ios-dev"
+
+[patch.crates-io]
+wgpu = { path = "../wgpu/wgpu" }
+naga = { path = "../wgpu/naga" }
