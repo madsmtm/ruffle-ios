@@ -14,21 +14,35 @@ Run on Mac Catalyst with:
 cargo +nightly bundle --target=aarch64-apple-ios-macabi && ./target/aarch64-apple-ios-macabi/debug/bundle/ios/Ruffle.app/ruffle-ios
 ```
 
-## GUI
+## UI
 
-- Button for opening keyboard, maybe?
-- Make sure to respect safe area
-- Where do we put the "play, rewind, forward, back, etc." menu?
-- How do we do scaling? Should the user be able to zoom?
+Similar to https://getutm.app/, we should have:
+- A library of "installed" SWFs/bundles/saved links, editable.
+- When selecting an SWF, the navigation bar at the top shows various options
+  - Opening keyboard (maybe?)
+  - Context menu "play, rewind, forward, back, etc."?
+  - Allow changing between scale
+  - Back button to go back to library
+
+## Library item settings
+
+Settings are stored per SWF / per "Ruffle Bundle" / per saved link. The UI does not significantly differentiate between these.
+
 - Inputs:
-  - Configurable?
+  - Configurable
   - Swipe for arrow keys?
   - https://openemu.org/ does it pretty well, equivalent for iOS?
-- UI: https://getutm.app/ has an interface at the top
-  - That's hard to reach tho
-- Game library?
+- Player settings:
+  - https://github.com/ruffle-rs/ruffle/blob/master/frontend-utils/src/bundle/README.md#player
 
-Plan:
+
+## Terminology
+
+What do we call an swf? "Game"? "Movie"? "SWF"? "Flash Animation"?
+
+
+## Plan
+
 1. Get the Ruffle UI running in a `UIView`
 2. Wire up some way to start it using an SWF on the local device
 
@@ -37,3 +51,7 @@ Plan:
 
 - Intentionally use `public.app-category.games` to get better performance ("Game Mode" on macOS).
   - This is not necessarily the correct choice for Ruffle, but it's the closest.
+- No tab bar, not really desired, since we generally want the SWF's UI to fill most of the screen
+- A navigation bar is useful though
+  - Also display settings for the current swf
+  - Hide when entering full screen
