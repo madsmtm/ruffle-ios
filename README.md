@@ -47,6 +47,11 @@ What do we call an swf? "Game"? "Movie"? "SWF"? "Flash Animation"?
 2. Wire up some way to start it using an SWF on the local device
 
 
+## TODO
+
+- Set `idleTimerDisabled` at the appropriate time
+
+
 ## Choices
 
 - Intentionally use `public.app-category.games` to get better performance ("Game Mode" on macOS).

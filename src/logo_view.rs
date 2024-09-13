@@ -46,9 +46,9 @@ declare_class!(
 
 impl Drop for LogoView {
     fn drop(&mut self) {
+        self.stop();
         // TODO: Do we really need to do this?
         let mut player_lock = self.player_lock();
-        player_lock.set_is_playing(false);
         player_lock.flush_shared_objects();
     }
 }
@@ -69,14 +69,11 @@ impl LogoView {
             .with_movie(movie)
             .build();
 
-        let mut player_lock = player.lock().unwrap();
-        player_lock.set_is_playing(true);
-        drop(player_lock);
-
         let bg_color =
             unsafe { UIColor::colorNamed(ns_string!("ruffle-blue")) }.expect("ruffle blue");
         self.setBackgroundColor(Some(&bg_color));
 
         self.set_player(player);
+        self.start();
     }
 }

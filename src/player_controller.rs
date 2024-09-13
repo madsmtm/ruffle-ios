@@ -189,13 +189,13 @@ impl PlayerController {
     fn view_is_appearing(&self, _animated: bool) {
         tracing::info!("viewIsAppearing:");
 
-        self.player_lock().set_is_playing(true);
+        self.view().start();
     }
 
     fn view_will_disappear(&self, _animated: bool) {
         tracing::info!("viewWillDisappear:");
 
-        self.player_lock().set_is_playing(false);
+        self.view().stop();
     }
 
     fn view_did_disappear(&self, _animated: bool) {
