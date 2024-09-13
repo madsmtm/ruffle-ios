@@ -2,7 +2,6 @@ use objc2::rc::{Allocated, Retained};
 use objc2::{declare_class, msg_send_id, mutability, ClassType, DeclaredClass};
 use objc2_foundation::{ns_string, CGRect, NSCoder, NSObjectProtocol};
 use objc2_ui_kit::{NSDataAsset, UIColor};
-use ruffle_core::config::Letterbox;
 use ruffle_core::tag_utils::SwfMovie;
 use ruffle_core::PlayerBuilder;
 
@@ -71,7 +70,6 @@ impl LogoView {
             .build();
 
         let mut player_lock = player.lock().unwrap();
-        player_lock.set_letterbox(Letterbox::On);
         player_lock.set_is_playing(true);
         drop(player_lock);
 
