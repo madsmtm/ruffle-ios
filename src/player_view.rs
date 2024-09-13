@@ -99,6 +99,9 @@ impl PlayerView {
 
         // Create repeating timer that won't fire until we properly start it
         // (because of the high interval).
+        //
+        // TODO: Consider running two timers, one to maintain the frame rate,
+        // and one to update Flash timers.
         let timer = unsafe {
             NSTimer::timerWithTimeInterval_target_selector_userInfo_repeats(
                 f64::MAX,
@@ -140,6 +143,7 @@ impl PlayerView {
 
         let mut player_lock = self.player_lock();
         // Avoid unnecessary resizes
+        // FIXME: Expose `PartialEq` on `ViewportDimensions`.
         let old_dimensions = player_lock.viewport_dimensions();
         if new_dimensions.height != old_dimensions.height
             || new_dimensions.width != old_dimensions.width
