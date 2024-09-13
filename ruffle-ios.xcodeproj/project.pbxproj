@@ -7,45 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EC3BA0AE2C93A6CA0072939D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3BA0AD2C93A6CA0072939D /* AppDelegate.m */; };
-		EC3BA0B12C93A6CA0072939D /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3BA0B02C93A6CA0072939D /* SceneDelegate.m */; };
-		EC3BA0B42C93A6CA0072939D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3BA0B32C93A6CA0072939D /* ViewController.m */; };
 		EC3BA0B72C93A6CA0072939D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = EC3BA0B62C93A6CA0072939D /* Base */; };
 		EC3BA0BA2C93A6CA0072939D /* ruffle_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC3BA0B82C93A6CA0072939D /* ruffle_ios.xcdatamodeld */; };
 		EC3BA0BC2C93A6CB0072939D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC3BA0BB2C93A6CB0072939D /* Assets.xcassets */; };
 		EC3BA0BF2C93A6CB0072939D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = EC3BA0BE2C93A6CB0072939D /* Base */; };
-		EC3BA0C22C93A6CB0072939D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3BA0C12C93A6CB0072939D /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		EC3BA0A92C93A6CA0072939D /* ruffle-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ruffle-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC3BA0AC2C93A6CA0072939D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		EC3BA0AD2C93A6CA0072939D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		EC3BA0AF2C93A6CA0072939D /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
-		EC3BA0B02C93A6CA0072939D /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		EC3BA0B22C93A6CA0072939D /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		EC3BA0B32C93A6CA0072939D /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		EC3BA0B62C93A6CA0072939D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EC3BA0B92C93A6CA0072939D /* ruffle_ios.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ruffle_ios.xcdatamodel; sourceTree = "<group>"; };
 		EC3BA0BB2C93A6CB0072939D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC3BA0BE2C93A6CB0072939D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EC3BA0C02C93A6CB0072939D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EC3BA0C12C93A6CB0072939D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EC3BA0C82C93A7400072939D /* ruffle-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ruffle-ios.entitlements"; sourceTree = "<group>"; };
 		EC3BA0C92C93A87E0072939D /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; path = src; sourceTree = "<group>"; };
 		EC3BA0CB2C93A8890072939D /* Cargo.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cargo.lock; sourceTree = "<group>"; };
 		EC3BA0CC2C93A8890072939D /* Cargo.toml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cargo.toml; sourceTree = "<group>"; };
+		ECEA01DB2C948F9A00C9D3D6 /* build-in-xcode.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-in-xcode.sh"; sourceTree = "<group>"; };
+		ECEA01DF2C9495C700C9D3D6 /* .cargo */ = {isa = PBXFileReference; lastKnownFileType = folder; path = .cargo; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		EC3BA0A62C93A6CA0072939D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		EC3BA0A02C93A6CA0072939D = {
@@ -57,10 +38,11 @@
 				EC3BA0B52C93A6CA0072939D /* Main.storyboard */,
 				EC3BA0BB2C93A6CB0072939D /* Assets.xcassets */,
 				EC3BA0B82C93A6CA0072939D /* ruffle_ios.xcdatamodeld */,
+				ECEA01DB2C948F9A00C9D3D6 /* build-in-xcode.sh */,
 				EC3BA0CC2C93A8890072939D /* Cargo.toml */,
 				EC3BA0CB2C93A8890072939D /* Cargo.lock */,
+				ECEA01DF2C9495C700C9D3D6 /* .cargo */,
 				EC3BA0C92C93A87E0072939D /* src */,
-				EC3BA0AB2C93A6CA0072939D /* ruffle-ios */,
 				EC3BA0AA2C93A6CA0072939D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -73,20 +55,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EC3BA0AB2C93A6CA0072939D /* ruffle-ios */ = {
-			isa = PBXGroup;
-			children = (
-				EC3BA0AC2C93A6CA0072939D /* AppDelegate.h */,
-				EC3BA0AD2C93A6CA0072939D /* AppDelegate.m */,
-				EC3BA0AF2C93A6CA0072939D /* SceneDelegate.h */,
-				EC3BA0B02C93A6CA0072939D /* SceneDelegate.m */,
-				EC3BA0B22C93A6CA0072939D /* ViewController.h */,
-				EC3BA0B32C93A6CA0072939D /* ViewController.m */,
-				EC3BA0C12C93A6CB0072939D /* main.m */,
-			);
-			path = "ruffle-ios";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -95,7 +63,8 @@
 			buildConfigurationList = EC3BA0C52C93A6CB0072939D /* Build configuration list for PBXNativeTarget "ruffle-ios" */;
 			buildPhases = (
 				EC3BA0A52C93A6CA0072939D /* Sources */,
-				EC3BA0A62C93A6CA0072939D /* Frameworks */,
+				ECEA01DC2C948FAD00C9D3D6 /* ShellScript */,
+				ECEA01DE2C94929900C9D3D6 /* ShellScript */,
 				EC3BA0A72C93A6CA0072939D /* Resources */,
 			);
 			buildRules = (
@@ -152,16 +121,55 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		ECEA01DC2C948FAD00C9D3D6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			dependencyFile = "$(DERIVED_FILE_DIR)/$(ARCHS)-$(EXECUTABLE_NAME).d";
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Cargo.toml",
+				"$(SRCROOT)/build-in-xcode.sh",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(OBJECT_FILE_DIR)/$(EXECUTABLE_NAME)",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./build-in-xcode.sh\n";
+		};
+		ECEA01DE2C94929900C9D3D6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(OBJECT_FILE_DIR)/$(EXECUTABLE_NAME)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				$TARGET_BUILD_DIR/$EXECUTABLE_PATH,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncp $OBJECT_FILE_DIR/$EXECUTABLE_NAME $TARGET_BUILD_DIR/$EXECUTABLE_PATH\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		EC3BA0A52C93A6CA0072939D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC3BA0C22C93A6CB0072939D /* main.m in Sources */,
-				EC3BA0B42C93A6CA0072939D /* ViewController.m in Sources */,
 				EC3BA0BA2C93A6CA0072939D /* ruffle_ios.xcdatamodeld in Sources */,
-				EC3BA0AE2C93A6CA0072939D /* AppDelegate.m in Sources */,
-				EC3BA0B12C93A6CA0072939D /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +318,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Ruffle - Flash Player emulator";
@@ -324,7 +333,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "rs.ruffle.ruffle-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -344,6 +353,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Ruffle - Flash Player emulator";
@@ -358,7 +368,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "rs.ruffle.ruffle-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

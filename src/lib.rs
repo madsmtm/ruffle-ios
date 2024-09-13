@@ -1,6 +1,7 @@
 use std::ptr::NonNull;
 
 use objc2::runtime::AnyClass;
+use objc2::ClassType;
 use objc2_foundation::{MainThreadMarker, NSStringFromClass};
 use objc2_ui_kit::UIApplicationMain;
 
@@ -8,9 +9,9 @@ mod app_delegate;
 mod logo_view;
 mod player_controller;
 mod player_view;
+mod scene_delegate;
 
 pub use self::app_delegate::AppDelegate;
-pub use self::logo_view::LogoView;
 pub use self::player_controller::PlayerController;
 pub use self::player_view::PlayerView;
 
@@ -34,6 +35,13 @@ pub fn init_logging() {
 }
 
 pub fn launch(app_class: Option<&AnyClass>, delegate_class: Option<&AnyClass>) {
+    // These classes are loaded from a storyboard,
+    // and hence need to be initialized first.
+    let _ = player_view::PlayerView::class();
+    let _ = logo_view::LogoView::class();
+    let _ = scene_delegate::SceneDelegate::class();
+    let _ = player_controller::PlayerController::class();
+
     let _ = MainThreadMarker::new().unwrap();
     unsafe {
         UIApplicationMain(

@@ -74,6 +74,8 @@ declare_class!(
 
         #[method(viewDidLoad)]
         fn _view_did_load(&self) {
+            // Xcode template calls super at the beginning
+            let _: () = unsafe { msg_send![super(self), viewDidLoad] };
             self.view_did_load();
         }
 
