@@ -70,6 +70,9 @@ impl LogoView {
             .build();
 
         self.set_player(player);
+        // HACK: Skip first frame to avoid a flicker on startup
+        // FIXME: This probably indicates a bug in our timing code?
+        self.player_lock().run_frame();
         self.start();
     }
 }
