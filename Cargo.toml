@@ -43,6 +43,6 @@ oslog = "0.2.0"
 simple_logger = "5.0.0"
 libc = "0.2.158"
 
-[package.metadata.bundle]
+[package.metadata.bundle.bin.run_swf]
 name = "Ruffle"
 identifier = "rs.ruffle.ios-dev"

@@ -9,9 +9,9 @@ I'm developing [`objc2`](https://github.com/madsmtm/objc2) though, and I want to
 
 ## Testing
 
-Run on Mac Catalyst with:
+Run the core player on Mac Catalyst with:
 ```
-cargo +nightly bundle --target=aarch64-apple-ios-macabi && ./target/aarch64-apple-ios-macabi/debug/bundle/ios/Ruffle.app/ruffle-ios
+cargo bundle --target=aarch64-apple-ios-macabi --bin run_swf && ./target/aarch64-apple-ios-macabi/debug/bundle/ios/Ruffle.app/run_swf
 ```
 
 ## UI

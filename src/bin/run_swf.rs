@@ -1,35 +1,12 @@
+//! Run an SWF without setting up navigation, a data model and everything.
 use std::cell::OnceCell;
 
 use objc2::rc::{Allocated, Retained};
 use objc2::{declare_class, msg_send_id, mutability, ClassType, DeclaredClass};
 use objc2_foundation::{MainThreadMarker, NSObject, NSObjectProtocol};
-use objc2_ui_kit::{UIApplication, UIApplicationDelegate, UIScreen, UIViewController, UIWindow};
+use objc2_ui_kit::{UIApplication, UIApplicationDelegate, UIScreen, UIWindow};
 
-use crate::player_view::PlayerView;
-
-declare_class!(
-    #[derive(Debug)]
-    pub struct ViewController;
-
-    unsafe impl ClassType for ViewController {
-        type Super = UIViewController;
-        type Mutability = mutability::MainThreadOnly;
-        const NAME: &'static str = "ViewController";
-    }
-
-    impl DeclaredClass for ViewController {
-        type Ivars = ();
-    }
-
-    unsafe impl NSObjectProtocol for ViewController {}
-);
-
-impl ViewController {
-    fn new(mtm: MainThreadMarker) -> Retained<Self> {
-        let this = mtm.alloc().set_ivars(());
-        unsafe { msg_send_id![super(this), init] }
-    }
-}
+use ruffle_ios::{init_logging, launch, PlayerController};
 
 #[derive(Debug)]
 pub struct Ivars {
@@ -38,21 +15,22 @@ pub struct Ivars {
 
 declare_class!(
     #[derive(Debug)]
-    pub struct Delegate;
+    pub struct AppDelegate;
 
-    unsafe impl ClassType for Delegate {
+    unsafe impl ClassType for AppDelegate {
         type Super = NSObject;
         type Mutability = mutability::MainThreadOnly;
-        const NAME: &'static str = "Delegate";
+        const NAME: &'static str = "AppDelegate";
     }
 
-    impl DeclaredClass for Delegate {
+    impl DeclaredClass for AppDelegate {
         type Ivars = Ivars;
     }
 
-    unsafe impl NSObjectProtocol for Delegate {}
+    unsafe impl NSObjectProtocol for AppDelegate {}
 
-    unsafe impl Delegate {
+    unsafe impl AppDelegate {
+        // Called by UIKitApplicationMain
         #[method_id(init)]
         fn init(this: Allocated<Self>) -> Retained<Self> {
             let this = this.set_ivars(Ivars {
@@ -62,7 +40,7 @@ declare_class!(
         }
     }
 
-    unsafe impl UIApplicationDelegate for Delegate {
+    unsafe impl UIApplicationDelegate for AppDelegate {
         #[method(applicationDidFinishLaunching:)]
         fn did_finish_launching(&self, _application: &UIApplication) {
             tracing::info!("applicationDidFinishLaunching:");
@@ -71,7 +49,7 @@ declare_class!(
     }
 );
 
-impl Delegate {
+impl AppDelegate {
     fn setup(&self) {
         let mtm = MainThreadMarker::from(self);
 
@@ -80,11 +58,7 @@ impl Delegate {
 
         let window = unsafe { UIWindow::initWithFrame(mtm.alloc(), frame) };
 
-        let view_controller = ViewController::new(mtm);
-
-        let view = PlayerView::new(mtm, frame);
-        view_controller.setView(Some(&view));
-
+        let view_controller = PlayerController::new(mtm);
         window.setRootViewController(Some(&view_controller));
 
         window.makeKeyAndVisible();
@@ -94,4 +68,9 @@ impl Delegate {
             .set(window)
             .expect("can only initialize once");
     }
+}
+
+fn main() {
+    init_logging();
+    launch(None, Some(AppDelegate::class()));
 }
