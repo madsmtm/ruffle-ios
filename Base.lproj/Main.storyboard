@@ -6,7 +6,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -36,16 +35,16 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" id="eb3-Rh-jvJ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="ruffle-blue"/>
+                        <color key="tintColor" name="ruffle-orange"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="qwq-LQ-yFa" customClass="LogoView">
                             <rect key="frame" x="0.0" y="0.0" width="393" height="100"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <color key="backgroundColor" name="ruffle-blue"/>
                         </view>
                         <sections>
                             <tableViewSection headerTitle="Library" id="2h6-36-U8S">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="library-item" textLabel="5rA-Fn-Y5K" detailTextLabel="ClG-zt-IDB" style="IBUITableViewCellStyleValue1" id="Stx-t4-h9b">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="library-item" textLabel="5rA-Fn-Y5K" detailTextLabel="ClG-zt-IDB" style="IBUITableViewCellStyleValue1" id="Stx-t4-h9b">
                                         <rect key="frame" x="0.0" y="150" width="393" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Stx-t4-h9b" id="g8L-iE-zUM">
@@ -68,6 +67,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" name="ruffle-blue-9"/>
                                         <connections>
                                             <segue destination="ClQ-AD-lw4" kind="show" id="E6f-d8-WK0"/>
                                         </connections>
@@ -82,8 +82,12 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="wmY-4r-Pvd">
-                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="4wX-a8-qE5"/>
-                        <barButtonItem key="rightBarButtonItem" title="Add SWF" id="hjl-Rh-wCo"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="4wX-a8-qE5">
+                            <color key="tintColor" name="ruffle-orange"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Add SWF" id="hjl-Rh-wCo">
+                            <color key="tintColor" name="ruffle-orange"/>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
@@ -91,15 +95,15 @@
             </objects>
             <point key="canvasLocation" x="91" y="289"/>
         </scene>
-        <!--Player Controller-->
+        <!--View Controller-->
         <scene sceneID="I55-cc-16h">
             <objects>
-                <viewController id="ClQ-AD-lw4" customClass="PlayerController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="2gc-yi-JaB" customClass="PlayerView">
+                <viewController id="ClQ-AD-lw4" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2gc-yi-JaB">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="s1f-Y6-cjZ"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="ruffle-blue"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" playsSound="YES" updatesFrequently="YES"/>
                         </accessibility>
@@ -115,8 +119,11 @@
         <namedColor name="ruffle-blue">
             <color red="0.21568627450980393" green="0.32156862745098042" blue="0.5490196078431373" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <namedColor name="ruffle-blue-9">
+            <color red="0.17254901960784313" green="0.28627450980392155" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ruffle-orange">
+            <color red="1" green="0.67843137254901964" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

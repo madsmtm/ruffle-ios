@@ -1,7 +1,7 @@
 use objc2::rc::{Allocated, Retained};
 use objc2::{declare_class, msg_send_id, mutability, ClassType, DeclaredClass};
 use objc2_foundation::{ns_string, CGRect, NSCoder, NSObjectProtocol};
-use objc2_ui_kit::{NSDataAsset, UIColor};
+use objc2_ui_kit::NSDataAsset;
 use ruffle_core::tag_utils::SwfMovie;
 use ruffle_core::PlayerBuilder;
 
@@ -68,10 +68,6 @@ impl LogoView {
             .with_renderer(renderer)
             .with_movie(movie)
             .build();
-
-        let bg_color =
-            unsafe { UIColor::colorNamed(ns_string!("ruffle-blue")) }.expect("ruffle blue");
-        self.setBackgroundColor(Some(&bg_color));
 
         self.set_player(player);
         self.start();
