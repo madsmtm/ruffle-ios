@@ -5,7 +5,7 @@ use objc2::{declare_class, msg_send_id, mutability, ClassType, DeclaredClass};
 use objc2_foundation::{MainThreadMarker, NSObject, NSObjectProtocol};
 use objc2_ui_kit::{UIApplication, UIApplicationDelegate, UIScreen, UIViewController, UIWindow};
 
-use crate::ruffle_view::RuffleView;
+use crate::player_view::PlayerView;
 
 declare_class!(
     #[derive(Debug)]
@@ -82,7 +82,7 @@ impl Delegate {
 
         let view_controller = ViewController::new(mtm);
 
-        let view = RuffleView::new(mtm, frame);
+        let view = PlayerView::new(mtm, frame);
         view_controller.setView(Some(&view));
 
         window.setRootViewController(Some(&view_controller));

@@ -6,25 +6,21 @@ use objc2_ui_kit::UIView;
 pub struct Ivars {}
 
 declare_class!(
-    pub struct RuffleView;
+    pub struct PlayerView;
 
-    // SAFETY:
-    // - The superclass NSObject does not have any subclassing requirements.
-    // - Main thread only mutability is correct, since this is used for UI stuff.
-    // - `Delegate` does not implement `Drop`.
-    unsafe impl ClassType for RuffleView {
+    unsafe impl ClassType for PlayerView {
         type Super = UIView;
         type Mutability = mutability::MainThreadOnly;
-        const NAME: &'static str = "View";
+        const NAME: &'static str = "PlayerView";
     }
 
-    impl DeclaredClass for RuffleView {
+    impl DeclaredClass for PlayerView {
         type Ivars = Ivars;
     }
 
-    unsafe impl NSObjectProtocol for RuffleView {}
+    unsafe impl NSObjectProtocol for PlayerView {}
 
-    unsafe impl RuffleView {
+    unsafe impl PlayerView {
         #[method(drawRect:)]
         fn draw_rect(&self, _rect: CGRect) {
             tracing::debug!("triggered `drawRect:`");
@@ -44,7 +40,7 @@ declare_class!(
     }
 );
 
-impl RuffleView {
+impl PlayerView {
     pub fn new(mtm: MainThreadMarker, frame_rect: CGRect) -> Retained<Self> {
         // Create view
         let view = mtm.alloc().set_ivars(Ivars {});
