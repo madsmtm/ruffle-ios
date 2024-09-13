@@ -67,7 +67,9 @@ impl LogoView {
         player_lock.set_is_playing(true);
         drop(player_lock);
 
-        this.setBackgroundColor(Some(unsafe { &UIColor::blueColor() }));
+        let bg_color =
+            unsafe { UIColor::colorNamed(ns_string!("ruffle-blue")) }.expect("ruffle blue");
+        this.setBackgroundColor(Some(&bg_color));
 
         this.set_player(player);
 
