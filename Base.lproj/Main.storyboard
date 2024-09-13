@@ -82,8 +82,8 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="wmY-4r-Pvd">
-                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="hjl-Rh-wCo"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="4wX-a8-qE5"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="4wX-a8-qE5"/>
+                        <barButtonItem key="rightBarButtonItem" title="Add SWF" id="hjl-Rh-wCo"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
