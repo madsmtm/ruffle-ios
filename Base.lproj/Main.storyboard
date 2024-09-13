@@ -91,10 +91,10 @@
             </objects>
             <point key="canvasLocation" x="91" y="289"/>
         </scene>
-        <!--View Controller-->
+        <!--Player Controller-->
         <scene sceneID="I55-cc-16h">
             <objects>
-                <viewController id="ClQ-AD-lw4" customClass="ViewController" sceneMemberID="viewController">
+                <viewController id="ClQ-AD-lw4" customClass="PlayerController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2gc-yi-JaB" customClass="PlayerView">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
