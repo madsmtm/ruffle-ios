@@ -1,14 +1,18 @@
 use std::cell::OnceCell;
 use std::fs::File;
-use std::io;
 use std::path::Path;
 use std::rc::Rc;
 use std::sync::{Arc, Mutex, MutexGuard};
+use std::{io, ptr};
 
-use objc2::rc::Retained;
+use objc2::rc::{Allocated, Retained};
+use objc2::runtime::AnyObject;
 use objc2::{declare_class, msg_send, msg_send_id, mutability, ClassType, DeclaredClass};
-use objc2_foundation::{CGPoint, CGRect, CGSize, MainThreadMarker, NSObjectProtocol};
-use objc2_ui_kit::UIViewController;
+use objc2_foundation::{
+    ns_string, CGPoint, CGRect, CGSize, MainThreadMarker, NSBundle, NSCoder, NSObjectProtocol,
+    NSString,
+};
+use objc2_ui_kit::{NSDataAsset, UIViewController};
 use ruffle_core::config::Letterbox;
 use ruffle_core::tag_utils::SwfMovie;
 use ruffle_core::{Player, PlayerBuilder};
@@ -30,8 +34,9 @@ impl PollRequester for EventSender {
     }
 }
 
+#[derive(Default)]
 pub struct Ivars {
-    movie_url: String,
+    movie_path: Option<String>,
     player: OnceCell<Arc<Mutex<Player>>>,
     executor: OnceCell<Arc<AsyncExecutor<EventSender>>>,
 }
@@ -68,6 +73,27 @@ declare_class!(
     unsafe impl NSObjectProtocol for PlayerController {}
 
     unsafe impl PlayerController {
+        #[method_id(initWithNibName:bundle:)]
+        fn _init_with_nib_name_bundle(
+            this: Allocated<Self>,
+            nib_name_or_nil: Option<&NSString>,
+            nib_bundle_or_nil: Option<&NSBundle>,
+        ) -> Retained<Self> {
+            tracing::info!("init player controller");
+            let this = this.set_ivars(Ivars::default());
+            unsafe { msg_send_id![super(this), initWithNibName: nib_name_or_nil, bundle: nib_bundle_or_nil] }
+        }
+
+        #[method_id(initWithCoder:)]
+        fn _init_with_coder(
+            this: Allocated<Self>,
+            coder: &NSCoder,
+        ) -> Option<Retained<Self>> {
+            tracing::info!("init player controller");
+            let this = this.set_ivars(Ivars::default());
+            unsafe { msg_send_id![super(this), initWithCoder: coder] }
+        }
+
         #[method(loadView)]
         fn _load_view(&self) {
             self.load_view();
@@ -131,13 +157,14 @@ declare_class!(
 );
 
 impl PlayerController {
-    pub fn new(mtm: MainThreadMarker, movie_url: String) -> Retained<Self> {
+    pub fn new(mtm: MainThreadMarker, movie_path: String) -> Retained<Self> {
         let this = mtm.alloc().set_ivars(Ivars {
-            movie_url,
+            movie_path: Some(movie_path),
             player: OnceCell::new(),
             executor: OnceCell::new(),
         });
-        unsafe { msg_send_id![super(this), init] }
+        let nil = ptr::null::<AnyObject>();
+        unsafe { msg_send_id![super(this), initWithNibName: nil, bundle: nil] }
     }
 
     fn load_view(&self) {
@@ -184,8 +211,16 @@ impl PlayerController {
             .with_navigator(navigator);
 
         // Temporary until we figure out actual loading
-        let movie =
-            SwfMovie::from_path(&self.ivars().movie_url, None).expect("failed loading movie");
+        let movie = if let Some(path) = self.ivars().movie_path.as_deref() {
+            SwfMovie::from_path(path, None).expect("failed loading movie")
+        } else {
+            let asset =
+                unsafe { NSDataAsset::initWithName(NSDataAsset::alloc(), ns_string!("logo-anim")) }
+                    .expect("asset store should contain logo-anim");
+            let data = unsafe { asset.data() };
+            SwfMovie::from_data(data.bytes(), "file://logo-anim.swf".into(), None)
+                .expect("loading movie")
+        };
         builder = builder.with_movie(movie);
 
         match CpalAudioBackend::new(None) {
