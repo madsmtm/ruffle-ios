@@ -13,16 +13,16 @@
         <scene sceneID="Uit-rk-df1">
             <objects>
                 <navigationController storyboardIdentifier="root-navigation" title="Ruffle" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nja-X3-Lg5" userLabel="Main" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="0pP-9o-gnN">
-                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0pP-9o-gnN">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" name="ruffle-blue-6"/>
+                        <color key="backgroundColor" name="ruffle-blue"/>
+                        <color key="tintColor" name="ruffle-orange"/>
                         <color key="barTintColor" name="ruffle-blue-6"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" name="ruffle-orange"/>
+                        </textAttributes>
                     </navigationBar>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="I2C-en-ZLE">
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" name="ruffle-blue-9"/>
-                    </toolbar>
                     <connections>
                         <segue destination="jhe-Vq-qF4" kind="relationship" relationship="rootViewController" id="V8A-Bl-ddv"/>
                     </connections>
@@ -40,32 +40,34 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" name="ruffle-blue"/>
                         <color key="tintColor" name="ruffle-orange"/>
+                        <color key="sectionIndexColor" name="ruffle-orange"/>
+                        <color key="sectionIndexTrackingBackgroundColor" name="ruffle-blue-6"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="qwq-LQ-yFa" customClass="LogoView">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="100"/>
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="170"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </view>
                         <sections>
                             <tableViewSection headerTitle="Library" id="2h6-36-U8S">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="library-item" textLabel="5rA-Fn-Y5K" detailTextLabel="ClG-zt-IDB" style="IBUITableViewCellStyleValue1" id="Stx-t4-h9b">
-                                        <rect key="frame" x="0.0" y="150" width="393" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="220" width="393" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Stx-t4-h9b" id="g8L-iE-zUM">
                                             <rect key="frame" x="0.0" y="0.0" width="362.66666666666669" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5rA-Fn-Y5K">
-                                                    <rect key="frame" x="20" y="15" width="25" height="14.333333333333334"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="example.swf" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5rA-Fn-Y5K">
+                                                    <rect key="frame" x="20" y="15" width="70.666666666666671" height="14.333333333333334"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" name="ruffle-orange"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ClG-zt-IDB">
-                                                    <rect key="frame" x="322" y="15" width="32.666666666666664" height="14.333333333333334"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Run" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ClG-zt-IDB">
+                                                    <rect key="frame" x="332.66666666666669" y="15" width="22" height="14.333333333333334"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" name="ruffle-orange"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -85,18 +87,13 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="wmY-4r-Pvd">
-                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="4wX-a8-qE5">
-                            <color key="tintColor" name="ruffle-orange"/>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Add SWF" id="hjl-Rh-wCo">
-                            <color key="tintColor" name="ruffle-orange"/>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="4wX-a8-qE5"/>
+                        <barButtonItem key="rightBarButtonItem" title="Add SWF" id="hjl-Rh-wCo"/>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ska-Zd-pi7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="91" y="289"/>
+            <point key="canvasLocation" x="90.839694656488547" y="288.73239436619718"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="I55-cc-16h">
