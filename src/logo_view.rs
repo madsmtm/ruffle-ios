@@ -4,6 +4,7 @@ use objc2_foundation::{ns_string, CGRect, NSCoder, NSObjectProtocol};
 use objc2_ui_kit::NSDataAsset;
 use ruffle_core::tag_utils::SwfMovie;
 use ruffle_core::PlayerBuilder;
+use ruffle_frontend_utils::backends::audio::CpalAudioBackend;
 
 use crate::player_view::PlayerView;
 
@@ -64,12 +65,16 @@ impl LogoView {
 
         let renderer = self.create_renderer();
 
-        let player = PlayerBuilder::new()
+        let mut builder = PlayerBuilder::new()
             .with_renderer(renderer)
-            .with_movie(movie)
-            .build();
+            .with_movie(movie);
 
-        self.set_player(player);
+        match CpalAudioBackend::new(None) {
+            Ok(audio) => builder = builder.with_audio(audio),
+            Err(e) => tracing::error!("Unable to create audio device: {e}"),
+        }
+
+        self.set_player(builder.build());
         // HACK: Skip first frame to avoid a flicker on startup
         // FIXME: This probably indicates a bug in our timing code?
         self.player_lock().run_frame();

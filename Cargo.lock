@@ -3162,6 +3162,8 @@ version = "0.1.0"
 dependencies = [
  "async-channel",
  "async-io",
+ "bytemuck",
+ "cpal",
  "futures-lite",
  "reqwest",
  "ruffle_core",

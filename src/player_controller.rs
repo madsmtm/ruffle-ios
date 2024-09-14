@@ -12,6 +12,7 @@ use objc2_ui_kit::UIViewController;
 use ruffle_core::config::Letterbox;
 use ruffle_core::tag_utils::SwfMovie;
 use ruffle_core::{Player, PlayerBuilder};
+use ruffle_frontend_utils::backends::audio::CpalAudioBackend;
 use ruffle_frontend_utils::backends::executor::{AsyncExecutor, PollRequester};
 use ruffle_frontend_utils::backends::navigator::{ExternalNavigatorBackend, NavigatorInterface};
 use ruffle_frontend_utils::content::PlayingContent;
@@ -178,15 +179,21 @@ impl PlayerController {
             Navigator,
         );
 
+        let mut builder = PlayerBuilder::new()
+            .with_renderer(renderer)
+            .with_navigator(navigator);
+
         // Temporary until we figure out actual loading
         let movie =
             SwfMovie::from_path(&self.ivars().movie_url, None).expect("failed loading movie");
+        builder = builder.with_movie(movie);
 
-        let player = PlayerBuilder::new()
-            .with_renderer(renderer)
-            .with_navigator(navigator)
-            .with_movie(movie)
-            .build();
+        match CpalAudioBackend::new(None) {
+            Ok(audio) => builder = builder.with_audio(audio),
+            Err(e) => tracing::error!("Unable to create audio device: {e}"),
+        }
+
+        let player = builder.build();
 
         let mut player_lock = player.lock().unwrap();
         // player_lock.fetch_root_movie(

@@ -26,7 +26,9 @@ ruffle_render = { path = "../ruffle/render" }
 ruffle_render_wgpu = { path = "../ruffle/render/wgpu" }
 ruffle_video = { path = "../ruffle/video" }
 ruffle_video_software = { path = "../ruffle/video/software" }
-ruffle_frontend_utils = { path = "../ruffle/frontend-utils" }
+ruffle_frontend_utils = { path = "../ruffle/frontend-utils", features = [
+    "cpal",
+] }
 flv-rs = { path = "../ruffle/flv" }
 cpal = "0.15.3"
 fontdb = "0.21"

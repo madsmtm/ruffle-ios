@@ -50,7 +50,8 @@ What do we call an swf? "Game"? "Movie"? "SWF"? "Flash Animation"?
 ## TODO
 
 - Set `idleTimerDisabled` at the appropriate time
-
+- Use white for labels, orange for buttons
+- Add settings button in library item
 
 ## Choices
 
