@@ -49,6 +49,11 @@ libc = "0.2.158"
 name = "Ruffle"
 identifier = "rs.ruffle.ios-dev"
 
-# [patch.crates-io]
+[patch.crates-io]
+# visionOS support
 # wgpu = { path = "../wgpu/wgpu" }
 # naga = { path = "../wgpu/naga" }
+socket2 = { git = "https://github.com/rust-lang/socket2.git", rev = "3a938932829ea6ee3025d2d7a86c7b095c76e6c3" }
+ring = { git = "https://github.com/briansmith/ring.git", rev = "2bec9b2e057416e8f58f2ad8d47ccc9599ea6146" }
+polling = { git = "https://github.com/madsmtm/polling.git", branch = "visionos" }
+async-io = { git = "https://github.com/madsmtm/async-io.git", branch = "visionos" }
