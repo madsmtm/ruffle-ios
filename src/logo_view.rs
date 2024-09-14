@@ -74,5 +74,6 @@ impl LogoView {
         // FIXME: This probably indicates a bug in our timing code?
         self.player_lock().run_frame();
         self.start();
+        // TODO: Stop the logo view when we change screens
     }
 }

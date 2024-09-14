@@ -100,6 +100,33 @@ declare_class!(
             let _: () = unsafe { msg_send![super(self), viewDidDisappear: animated] };
         }
     }
+
+    // UIResponder
+    #[allow(non_snake_case)]
+    unsafe impl PlayerController {
+        #[method(canBecomeFirstResponder)]
+        fn canBecomeFirstResponder(&self) -> bool {
+            true
+        }
+
+        #[method(becomeFirstResponder)]
+        fn becomeFirstResponder(&self) -> bool {
+            tracing::info!("controller becomeFirstResponder");
+            unsafe { self.view().becomeFirstResponder() };
+            true
+        }
+
+        #[method(canResignFirstResponder)]
+        fn canResignFirstResponder(&self) -> bool {
+            true
+        }
+
+        #[method(resignFirstResponder)]
+        fn resignFirstResponder(&self) -> bool {
+            tracing::info!("controller resignFirstResponder");
+            true
+        }
+    }
 );
 
 impl PlayerController {
