@@ -49,28 +49,45 @@
                         <sections>
                             <tableViewSection headerTitle="Library" id="2h6-36-U8S">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="library-item" textLabel="5rA-Fn-Y5K" detailTextLabel="ClG-zt-IDB" style="IBUITableViewCellStyleValue1" id="Stx-t4-h9b">
-                                        <rect key="frame" x="0.0" y="220" width="393" height="43.666667938232422"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="library-item" rowHeight="70" id="Stx-t4-h9b">
+                                        <rect key="frame" x="0.0" y="220" width="393" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Stx-t4-h9b" id="g8L-iE-zUM">
-                                            <rect key="frame" x="0.0" y="0.0" width="362.66666666666669" height="43.666667938232422"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="330.66666666666669" height="70"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="example.swf" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5rA-Fn-Y5K">
-                                                    <rect key="frame" x="20" y="15" width="70.666666666666671" height="14.333333333333334"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                                    <color key="textColor" name="ruffle-orange"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swf-document" translatesAutoresizingMaskIntoConstraints="NO" id="nkx-TN-yZl">
+                                                    <rect key="frame" x="8" y="8" width="54" height="54"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="nkx-TN-yZl" secondAttribute="height" id="eCK-ay-IwU"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Example App" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wv1-EP-Ynf">
+                                                    <rect key="frame" x="69.999999999999986" y="18" width="240.66666666666663" height="21"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Run" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ClG-zt-IDB">
-                                                    <rect key="frame" x="332.66666666666669" y="15" width="22" height="14.333333333333334"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                                    <color key="textColor" name="ruffle-orange"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="file://example.swf" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CZA-0N-CAm">
+                                                    <rect key="frame" x="77.999999999999986" y="39" width="232.66666666666663" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="nkx-TN-yZl" firstAttribute="top" secondItem="g8L-iE-zUM" secondAttribute="top" constant="8" id="89P-6Q-bDA"/>
+                                                <constraint firstItem="nkx-TN-yZl" firstAttribute="centerY" secondItem="g8L-iE-zUM" secondAttribute="centerY" id="EM1-Sk-jiy"/>
+                                                <constraint firstAttribute="bottom" secondItem="nkx-TN-yZl" secondAttribute="bottom" constant="8" id="Gdz-Yw-J5A"/>
+                                                <constraint firstAttribute="trailing" secondItem="CZA-0N-CAm" secondAttribute="trailing" constant="20" symbolic="YES" id="Jeu-1q-qU8"/>
+                                                <constraint firstItem="nkx-TN-yZl" firstAttribute="leading" secondItem="g8L-iE-zUM" secondAttribute="leading" constant="8" id="MMx-Te-Zcg"/>
+                                                <constraint firstAttribute="centerY" secondItem="Wv1-EP-Ynf" secondAttribute="firstBaseline" id="aYE-KD-Tdd"/>
+                                                <constraint firstItem="CZA-0N-CAm" firstAttribute="leading" secondItem="nkx-TN-yZl" secondAttribute="trailing" constant="16" id="l8x-ey-R2u"/>
+                                                <constraint firstAttribute="trailing" secondItem="Wv1-EP-Ynf" secondAttribute="trailing" constant="20" symbolic="YES" id="p05-6K-8YJ"/>
+                                                <constraint firstItem="CZA-0N-CAm" firstAttribute="top" secondItem="Wv1-EP-Ynf" secondAttribute="bottom" id="vTb-35-rCb"/>
+                                                <constraint firstItem="Wv1-EP-Ynf" firstAttribute="leading" secondItem="nkx-TN-yZl" secondAttribute="trailing" constant="8" symbolic="YES" id="wXn-eb-Tst"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="ruffle-blue-9"/>
                                         <connections>
@@ -116,6 +133,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="swf-document" width="512" height="512"/>
         <namedColor name="ruffle-blue">
             <color red="0.21568627450980393" green="0.32156862745098042" blue="0.5490196078431373" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
