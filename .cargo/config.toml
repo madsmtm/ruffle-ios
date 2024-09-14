@@ -1,2 +1,6 @@
 [build]
 target = ["aarch64-apple-ios-macabi"]
+
+[env]
+# Mac Catalyst uses the macOS SDK
+COREAUDIO_SDK_PATH = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"

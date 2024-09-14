@@ -28,7 +28,7 @@ ruffle_video = { path = "../ruffle/video" }
 ruffle_video_software = { path = "../ruffle/video/software" }
 ruffle_frontend_utils = { path = "../ruffle/frontend-utils" }
 flv-rs = { path = "../ruffle/flv" }
-# cpal = "0.15.3"
+cpal = "0.15.3"
 fontdb = "0.21"
 dirs = "5.0"
 url = "2.5.2"
@@ -47,6 +47,6 @@ libc = "0.2.158"
 name = "Ruffle"
 identifier = "rs.ruffle.ios-dev"
 
-[patch.crates-io]
-wgpu = { path = "../wgpu/wgpu" }
-naga = { path = "../wgpu/naga" }
+# [patch.crates-io]
+# wgpu = { path = "../wgpu/wgpu" }
+# naga = { path = "../wgpu/naga" }
