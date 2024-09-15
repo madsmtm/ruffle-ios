@@ -181,7 +181,8 @@ dependencies = [
 [[package]]
 name = "async-io"
 version = "2.3.4"
-source = "git+https://github.com/madsmtm/async-io.git?branch=visionos#3e8f4d19456040270586705ad4d332aca0163be2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "444b0228950ee6501b3568d3c93bf1176a1fdbc3b758dcd9475046d30f4dc7e8"
 dependencies = [
  "async-lock",
  "cfg-if",
@@ -2726,7 +2727,8 @@ dependencies = [
 [[package]]
 name = "polling"
 version = "3.7.3"
-source = "git+https://github.com/madsmtm/polling.git?branch=visionos#6f5ff8f56631005dc8574f75e1b2b5a3ac478ffc"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cc2790cd301dec6cd3b7a025e4815cf825724a51c98dccfe6a3e55f05ffb6511"
 dependencies = [
  "cfg-if",
  "concurrent-queue",
@@ -3518,7 +3520,8 @@ checksum = "3c5e1a9a646d36c3599cd173a41282daf47c44583ad367b8e6837255952e5c67"
 [[package]]
 name = "socket2"
 version = "0.5.7"
-source = "git+https://github.com/rust-lang/socket2.git?rev=3a938932829ea6ee3025d2d7a86c7b095c76e6c3#3a938932829ea6ee3025d2d7a86c7b095c76e6c3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ce305eb0b4296696835b71df73eb912e0f1ffd2556a501fcede6e0c50349191c"
 dependencies = [
  "libc",
  "windows-sys 0.52.0",
