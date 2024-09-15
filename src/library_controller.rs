@@ -3,12 +3,16 @@ use std::cell::OnceCell;
 use objc2::rc::{Allocated, Retained};
 use objc2::{declare_class, msg_send, msg_send_id, mutability, ClassType, DeclaredClass};
 use objc2_foundation::{ns_string, NSBundle, NSCoder, NSObject, NSObjectProtocol, NSString};
+use objc2_ui_kit::UITableViewCell;
+#[allow(deprecated)]
 use objc2_ui_kit::{NSDataAsset, UIBarButtonItem, UIStoryboardSegue, UITableViewController};
 use ruffle_core::tag_utils::SwfMovie;
 use ruffle_core::PlayerBuilder;
 use ruffle_frontend_utils::backends::audio::CpalAudioBackend;
+use ruffle_frontend_utils::player_options::PlayerOptions;
 
-use crate::PlayerView;
+use crate::edit_controller::{Action, EditController};
+use crate::{PlayerController, PlayerView};
 
 #[derive(Default)]
 pub struct Ivars {
@@ -80,6 +84,16 @@ declare_class!(
             // Docs say to call super
             let _: () = unsafe { msg_send![super(self), viewDidDisappear: animated] };
         }
+
+        #[method(prepareForSegue:sender:)]
+        #[allow(deprecated)]
+        fn _prepare_for_segue(
+            &self,
+            segue: &UIStoryboardSegue,
+            sender: Option<&NSObject>,
+        ) {
+            self.prepare_for_segue(segue, sender.expect("has sender"));
+        }
     }
 
     // Storyboard
@@ -94,17 +108,21 @@ declare_class!(
         }
 
         #[method(toggleEditing:)]
-        fn _toggle_editing(&self, sender: Option<&NSObject>) {
+        fn _toggle_editing(&self, button: &UIBarButtonItem) {
             tracing::trace!("library toggle editing");
-            let button = sender.expect("edit button");
             assert!(button.isKindOfClass(UIBarButtonItem::class()), "edit button not UIBarButtonItem");
-            let button = unsafe { &*(button as *const NSObject as *const UIBarButtonItem) };
             self.toggle_editing(button);
         }
 
-        #[method(editingClosed:)]
+        #[method(cancelEditItem:)]
         #[allow(deprecated)]
-        fn _editing_closed(&self, _segue: &UIStoryboardSegue) {}
+        fn _cancel_edit_item(&self, _segue: &UIStoryboardSegue) {}
+
+        #[method(saveEditItem:)]
+        #[allow(deprecated)]
+        fn _save_edit_item(&self, segue: &UIStoryboardSegue) {
+            self.save_item(segue);
+        }
     }
 );
 
@@ -161,6 +179,49 @@ impl LibraryController {
         tracing::info!("library viewDidDisappear:");
 
         self.logo_view().player_lock().flush_shared_objects();
+    }
+
+    #[allow(deprecated)]
+    fn prepare_for_segue(&self, segue: &UIStoryboardSegue, sender: &NSObject) {
+        let destination = unsafe { segue.destinationViewController() };
+        tracing::info!(?destination, "prepareForSegue");
+
+        // Identifiers are set up in the Storyboard
+        let identifier = unsafe { segue.identifier() }.expect("segue to have identifier");
+        if &*identifier == ns_string!("new-item") {
+            assert!(destination.isKindOfClass(EditController::class()));
+            let edit_controller = unsafe { Retained::cast::<EditController>(destination) };
+
+            edit_controller.set_action(Action::New);
+        } else if &*identifier == ns_string!("edit-item") {
+            assert!(destination.isKindOfClass(EditController::class()));
+            let edit_controller = unsafe { Retained::cast::<EditController>(destination) };
+            assert!(sender.isKindOfClass(UITableViewCell::class()));
+            let cell = unsafe { &*(sender as *const NSObject as *const UITableViewCell) };
+
+            // TODO
+            edit_controller.set_action(Action::Edit(PlayerOptions::default()));
+            dbg!(cell);
+        } else if &*identifier == ns_string!("run-item") {
+            assert!(destination.isKindOfClass(PlayerController::class()));
+            let player_controller = unsafe { Retained::cast::<PlayerController>(destination) };
+            assert!(sender.isKindOfClass(UITableViewCell::class()));
+            let cell = unsafe { &*(sender as *const NSObject as *const UITableViewCell) };
+
+            // TODO
+            dbg!(cell, player_controller);
+        } else {
+            unreachable!("unknown identifier for segue: {identifier:?}")
+        }
+    }
+
+    #[allow(deprecated)]
+    fn save_item(&self, segue: &UIStoryboardSegue) {
+        tracing::info!("saveEditItem");
+        let edit_controller = unsafe { segue.sourceViewController() };
+        assert!(edit_controller.isKindOfClass(EditController::class()));
+        let edit_controller = unsafe { Retained::cast::<EditController>(edit_controller) };
+        dbg!(edit_controller); // TODO
     }
 
     fn toggle_editing(&self, button: &UIBarButtonItem) {

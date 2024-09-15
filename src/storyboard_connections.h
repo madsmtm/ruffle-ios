@@ -11,5 +11,11 @@
 @interface LibraryController : UITableViewController
 @property IBOutlet PlayerView* logoView;
 - (IBAction) toggleEditing: (UIBarButtonItem*) sender;
-- (IBAction) editingClosed: (UIStoryboardSegue*) segue;
+- (IBAction) cancelEditItem: (UIStoryboardSegue*) segue;
+- (IBAction) saveEditItem: (UIStoryboardSegue*) segue;
+@end
+
+@interface EditController : UIViewController
+@property IBOutlet UINavigationItem* navigationItem;
+@property IBOutlet UITableView* tableView;
 @end
