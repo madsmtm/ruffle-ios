@@ -1,6 +1,6 @@
 [toolchain]
-# Requires https://github.com/rust-lang/rust/pull/130334
-channel = "stage1"
+# Until 1.83 comes out
+channel = "nightly"
 components = ["rust-src"]
 targets = [
     "aarch64-apple-ios",
