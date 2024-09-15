@@ -57,7 +57,10 @@ What do we call an swf? "Game"? "Movie"? "SWF"? "Flash Animation"?
 
 - Intentionally use `public.app-category.games` to get better performance ("Game Mode" on macOS).
   - This is not necessarily the correct choice for Ruffle, but it's the closest.
+- It doesn't make sense to have root settings like in the desktop version
 - No tab bar, not really desired, since we generally want the SWF's UI to fill most of the screen
+  - Though if we decide to add an easy way to download from "trusted" sources, we could add a tab bar for that
 - A navigation bar is useful though
-  - Also display settings for the current swf
-  - Hide when entering full screen
+  - To display some settings for the current swf
+  - To go back to library
+  - Hide when entering full screen?
