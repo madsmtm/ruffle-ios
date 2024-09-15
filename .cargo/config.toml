@@ -1,6 +1,10 @@
 [build]
 target = ["aarch64-apple-ios-macabi"]
 
+# To support older iOS versions
+[target.'cfg(target_vendor = "apple")']
+rustflags = ["-C", "link-args=-weak_framework Symbols"]
+
 [env]
 # Mac Catalyst uses the macOS SDK
 COREAUDIO_SDK_PATH = "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"

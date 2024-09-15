@@ -328,7 +328,7 @@ impl PlayerView {
         unsafe {
             WgpuRenderBackend::for_window_unsafe(
                 wgpu::SurfaceTargetUnsafe::CoreAnimationLayer(layer_ptr),
-                (dimensions.width, dimensions.height),
+                (dimensions.width.max(1), dimensions.height.max(1)),
                 wgpu::Backends::METAL,
                 wgpu::PowerPreference::HighPerformance,
                 None,

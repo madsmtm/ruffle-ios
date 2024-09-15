@@ -133,6 +133,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Cargo.toml",
 				"$(SRCROOT)/build-in-xcode.sh",
+				"$(SRCROOT)/.cargo/config.toml",
 			);
 			outputFileListPaths = (
 			);
