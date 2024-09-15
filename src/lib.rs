@@ -35,10 +35,13 @@ pub fn init_logging() {
 }
 
 pub fn launch(app_class: Option<&AnyClass>, delegate_class: Option<&AnyClass>) {
+    // Set inside Info.plist
+    let _ = scene_delegate::SceneDelegate::class();
+
     // These classes are loaded from a storyboard,
     // and hence need to be initialized first.
+    // See also [storyboard_connections.h]
     let _ = player_view::PlayerView::class();
-    let _ = scene_delegate::SceneDelegate::class();
     let _ = player_controller::PlayerController::class();
     let _ = library_controller::LibraryController::class();
 
