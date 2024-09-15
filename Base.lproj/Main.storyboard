@@ -32,10 +32,10 @@
             </objects>
             <point key="canvasLocation" x="-724" y="290"/>
         </scene>
-        <!--Library-->
+        <!--Library Controller-->
         <scene sceneID="JGa-PG-7hl">
             <objects>
-                <tableViewController storyboardIdentifier="main-controller" title="Ruffle 2" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jhe-Vq-qF4" userLabel="Library" customClass="LibraryController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="main-controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jhe-Vq-qF4" customClass="LibraryController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" id="eb3-Rh-jvJ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
