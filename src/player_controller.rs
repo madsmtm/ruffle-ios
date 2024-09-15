@@ -79,7 +79,7 @@ declare_class!(
             nib_name_or_nil: Option<&NSString>,
             nib_bundle_or_nil: Option<&NSBundle>,
         ) -> Retained<Self> {
-            tracing::info!("init player controller");
+            tracing::info!("player controller init");
             let this = this.set_ivars(Ivars::default());
             unsafe { msg_send_id![super(this), initWithNibName: nib_name_or_nil, bundle: nib_bundle_or_nil] }
         }
@@ -89,7 +89,7 @@ declare_class!(
             this: Allocated<Self>,
             coder: &NSCoder,
         ) -> Option<Retained<Self>> {
-            tracing::info!("init player controller");
+            tracing::info!("player controller init");
             let this = this.set_ivars(Ivars::default());
             unsafe { msg_send_id![super(this), initWithCoder: coder] }
         }
@@ -138,7 +138,7 @@ declare_class!(
 
         #[method(becomeFirstResponder)]
         fn becomeFirstResponder(&self) -> bool {
-            tracing::info!("controller becomeFirstResponder");
+            tracing::info!("player controller becomeFirstResponder");
             unsafe { self.view().becomeFirstResponder() };
             true
         }
@@ -168,7 +168,7 @@ impl PlayerController {
     }
 
     fn load_view(&self) {
-        tracing::info!("loadView");
+        tracing::info!("player loadView");
         let mtm = MainThreadMarker::from(self);
         let view = PlayerView::initWithFrame(
             mtm.alloc(),
@@ -178,7 +178,7 @@ impl PlayerController {
     }
 
     fn view_did_load(&self) {
-        tracing::info!("viewDidLoad");
+        tracing::info!("player viewDidLoad");
 
         // TODO: Specify safe area somehow
         let view = self.view();
@@ -250,25 +250,22 @@ impl PlayerController {
             .executor
             .set(executor)
             .unwrap_or_else(|_| panic!("viewDidLoad once"));
-
-        // last_frame_time = Instant::now();
-        // next_frame_time = Some(Instant::now());
     }
 
     fn view_is_appearing(&self, _animated: bool) {
-        tracing::info!("viewIsAppearing:");
+        tracing::info!("player viewIsAppearing:");
 
         self.view().start();
     }
 
     fn view_will_disappear(&self, _animated: bool) {
-        tracing::info!("viewWillDisappear:");
+        tracing::info!("player viewWillDisappear:");
 
         self.view().stop();
     }
 
     fn view_did_disappear(&self, _animated: bool) {
-        tracing::info!("viewDidDisappear:");
+        tracing::info!("player viewDidDisappear:");
 
         self.player_lock().flush_shared_objects();
     }
