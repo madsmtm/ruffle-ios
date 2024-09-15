@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -90,8 +91,10 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="ruffle-blue-9"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <segue destination="ClQ-AD-lw4" kind="show" id="E6f-d8-WK0"/>
+                                            <segue destination="sRq-mP-zfz" kind="presentation" trigger="accessoryAction" id="A3X-ju-TDP"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -104,8 +107,16 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="wmY-4r-Pvd">
-                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="4wX-a8-qE5"/>
-                        <barButtonItem key="rightBarButtonItem" title="Add SWF" id="hjl-Rh-wCo"/>
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="4wX-a8-qE5">
+                            <connections>
+                                <action selector="toggleEditing:" destination="jhe-Vq-qF4" id="fZj-kz-7R4"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Add SWF" id="hjl-Rh-wCo">
+                            <connections>
+                                <segue destination="sRq-mP-zfz" kind="presentation" id="EKf-VO-pKJ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="logoView" destination="qwq-LQ-yFa" id="j9s-2r-urh"/>
@@ -114,6 +125,46 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ska-Zd-pi7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="90.839694656488547" y="288.73239436619718"/>
+        </scene>
+        <!--Edit Controller-->
+        <scene sceneID="tOX-ev-6IR">
+            <objects>
+                <viewController id="sRq-mP-zfz" customClass="EditController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yIn-vE-aR8">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="786"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xjv-iU-cbf">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Add/Edit SWF" id="NBs-uZ-Ytd">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="6Jf-Kr-ZXP">
+                                            <connections>
+                                                <segue destination="6hO-0f-y9e" kind="unwind" unwindAction="editingClosed:" id="MmF-1A-FqK"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="TjK-up-Bmv"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U9e-mK-S9t">
+                                <rect key="frame" x="0.0" y="44" width="393" height="742"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="GVd-RY-7Qq"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="T0M-Hb-n1B"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="LFx-of-t7D"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Smm-Mc-RBS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="6hO-0f-y9e" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="959.5419847328244" y="-494.36619718309862"/>
         </scene>
         <!--Player Controller-->
         <scene sceneID="I55-cc-16h">
@@ -135,6 +186,9 @@
             <point key="canvasLocation" x="1019" y="289"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="A3X-ju-TDP"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="swf-document" width="512" height="512"/>
         <namedColor name="ruffle-blue">
@@ -149,5 +203,8 @@
         <namedColor name="ruffle-orange">
             <color red="1" green="0.67843137254901964" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

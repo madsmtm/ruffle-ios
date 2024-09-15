@@ -10,4 +10,6 @@
 
 @interface LibraryController : UITableViewController
 @property IBOutlet PlayerView* logoView;
+- (IBAction) toggleEditing: (UIBarButtonItem*) sender;
+- (IBAction) editingClosed: (UIStoryboardSegue*) segue;
 @end

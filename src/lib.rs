@@ -6,6 +6,7 @@ use objc2_foundation::{MainThreadMarker, NSStringFromClass};
 use objc2_ui_kit::UIApplicationMain;
 
 mod app_delegate;
+mod edit_controller;
 mod library_controller;
 mod player_controller;
 mod player_view;
@@ -44,6 +45,7 @@ pub fn launch(app_class: Option<&AnyClass>, delegate_class: Option<&AnyClass>) {
     let _ = player_view::PlayerView::class();
     let _ = player_controller::PlayerController::class();
     let _ = library_controller::LibraryController::class();
+    let _ = edit_controller::EditController::class();
 
     let _ = MainThreadMarker::new().unwrap();
     unsafe {

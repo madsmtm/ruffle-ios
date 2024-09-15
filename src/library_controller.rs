@@ -2,8 +2,8 @@ use std::cell::OnceCell;
 
 use objc2::rc::{Allocated, Retained};
 use objc2::{declare_class, msg_send, msg_send_id, mutability, ClassType, DeclaredClass};
-use objc2_foundation::{ns_string, NSBundle, NSCoder, NSObjectProtocol, NSString};
-use objc2_ui_kit::{NSDataAsset, UITableViewController};
+use objc2_foundation::{ns_string, NSBundle, NSCoder, NSObject, NSObjectProtocol, NSString};
+use objc2_ui_kit::{NSDataAsset, UIBarButtonItem, UIStoryboardSegue, UITableViewController};
 use ruffle_core::tag_utils::SwfMovie;
 use ruffle_core::PlayerBuilder;
 use ruffle_frontend_utils::backends::audio::CpalAudioBackend;
@@ -53,15 +53,6 @@ declare_class!(
             unsafe { msg_send_id![super(this), initWithCoder: coder] }
         }
 
-        // Set by Storyboard upon load
-        #[method(setLogoView:)]
-        fn _set_logo_view(&self, view: Option<&PlayerView>) {
-            tracing::trace!("library set logo view");
-            let view = view.expect("logo view not null");
-            assert!(view.isKindOfClass(PlayerView::class()), "logo view not a PlayerView");
-            self.ivars().logo_view.set(view.retain()).expect("only set logo view once");
-        }
-
         #[method(viewDidLoad)]
         fn _view_did_load(&self) {
             // Xcode template calls super at the beginning
@@ -89,6 +80,31 @@ declare_class!(
             // Docs say to call super
             let _: () = unsafe { msg_send![super(self), viewDidDisappear: animated] };
         }
+    }
+
+    // Storyboard
+    // See storyboard_connections.h
+    unsafe impl LibraryController {
+        #[method(setLogoView:)]
+        fn _set_logo_view(&self, view: Option<&PlayerView>) {
+            tracing::trace!("library set logo view");
+            let view = view.expect("logo view not null");
+            assert!(view.isKindOfClass(PlayerView::class()), "logo view not a PlayerView");
+            self.ivars().logo_view.set(view.retain()).expect("only set logo view once");
+        }
+
+        #[method(toggleEditing:)]
+        fn _toggle_editing(&self, sender: Option<&NSObject>) {
+            tracing::trace!("library toggle editing");
+            let button = sender.expect("edit button");
+            assert!(button.isKindOfClass(UIBarButtonItem::class()), "edit button not UIBarButtonItem");
+            let button = unsafe { &*(button as *const NSObject as *const UIBarButtonItem) };
+            self.toggle_editing(button);
+        }
+
+        #[method(editingClosed:)]
+        #[allow(deprecated)]
+        fn _editing_closed(&self, _segue: &UIStoryboardSegue) {}
     }
 );
 
@@ -145,5 +161,18 @@ impl LibraryController {
         tracing::info!("library viewDidDisappear:");
 
         self.logo_view().player_lock().flush_shared_objects();
+    }
+
+    fn toggle_editing(&self, button: &UIBarButtonItem) {
+        unsafe {
+            let table_view = self.tableView().expect("has table view");
+            let is_editing = !table_view.isEditing();
+            table_view.setEditing_animated(is_editing, true);
+            button.setTitle(Some(if is_editing {
+                ns_string!("Done")
+            } else {
+                ns_string!("Edit")
+            }));
+        }
     }
 }
