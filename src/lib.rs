@@ -6,7 +6,7 @@ use objc2_foundation::{MainThreadMarker, NSStringFromClass};
 use objc2_ui_kit::UIApplicationMain;
 
 mod app_delegate;
-mod logo_view;
+mod library_controller;
 mod player_controller;
 mod player_view;
 mod scene_delegate;
@@ -38,9 +38,9 @@ pub fn launch(app_class: Option<&AnyClass>, delegate_class: Option<&AnyClass>) {
     // These classes are loaded from a storyboard,
     // and hence need to be initialized first.
     let _ = player_view::PlayerView::class();
-    let _ = logo_view::LogoView::class();
     let _ = scene_delegate::SceneDelegate::class();
     let _ = player_controller::PlayerController::class();
+    let _ = library_controller::LibraryController::class();
 
     let _ = MainThreadMarker::new().unwrap();
     unsafe {

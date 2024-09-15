@@ -34,7 +34,7 @@
         <!--Library-->
         <scene sceneID="JGa-PG-7hl">
             <objects>
-                <tableViewController storyboardIdentifier="main-controller" title="Ruffle 2" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jhe-Vq-qF4" userLabel="Library" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="main-controller" title="Ruffle 2" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jhe-Vq-qF4" userLabel="Library" customClass="LibraryController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" id="eb3-Rh-jvJ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -42,7 +42,7 @@
                         <color key="tintColor" name="ruffle-orange"/>
                         <color key="sectionIndexColor" name="ruffle-orange"/>
                         <color key="sectionIndexTrackingBackgroundColor" name="ruffle-blue-6"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="qwq-LQ-yFa" customClass="LogoView">
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="qwq-LQ-yFa" userLabel="Logo View" customClass="PlayerView">
                             <rect key="frame" x="0.0" y="0.0" width="393" height="170"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </view>
@@ -107,6 +107,9 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="4wX-a8-qE5"/>
                         <barButtonItem key="rightBarButtonItem" title="Add SWF" id="hjl-Rh-wCo"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="logoView" destination="qwq-LQ-yFa" id="j9s-2r-urh"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ska-Zd-pi7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

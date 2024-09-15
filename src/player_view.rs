@@ -27,6 +27,7 @@ pub struct Ivars {
 }
 
 declare_class!(
+    #[derive(Debug)]
     pub struct PlayerView;
 
     unsafe impl ClassType for PlayerView {
