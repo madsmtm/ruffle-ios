@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ruf-document.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
