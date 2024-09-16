@@ -1,15 +1,22 @@
-use std::cell::OnceCell;
+use std::cell::{OnceCell, RefCell};
 
 use objc2::rc::{Allocated, Retained};
 use objc2::{declare_class, msg_send, msg_send_id, mutability, ClassType, DeclaredClass};
-use objc2_foundation::{ns_string, NSBundle, NSCoder, NSObject, NSObjectProtocol, NSString};
-use objc2_ui_kit::UITableViewCell;
+use objc2_foundation::{
+    ns_string, NSBundle, NSCoder, NSIndexPath, NSInteger, NSObject, NSObjectProtocol, NSString,
+};
 #[allow(deprecated)]
-use objc2_ui_kit::{NSDataAsset, UIBarButtonItem, UIStoryboardSegue, UITableViewController};
+use objc2_ui_kit::UIStoryboardSegue;
+use objc2_ui_kit::{
+    NSDataAsset, NSIndexPathUIKitAdditions, UIBarButtonItem, UILabel, UITableView, UITableViewCell,
+    UITableViewController, UITableViewDataSource,
+};
 use ruffle_core::tag_utils::SwfMovie;
 use ruffle_core::PlayerBuilder;
 use ruffle_frontend_utils::backends::audio::CpalAudioBackend;
+use ruffle_frontend_utils::bundle::info::BundleInformation;
 use ruffle_frontend_utils::player_options::PlayerOptions;
+use url::Url;
 
 use crate::edit_controller::{Action, EditController};
 use crate::{PlayerController, PlayerView};
@@ -17,6 +24,7 @@ use crate::{PlayerController, PlayerView};
 #[derive(Default)]
 pub struct Ivars {
     logo_view: OnceCell<Retained<PlayerView>>,
+    bundles: RefCell<Vec<BundleInformation>>,
 }
 
 declare_class!(
@@ -44,14 +52,13 @@ declare_class!(
         ) -> Retained<Self> {
             tracing::info!("library init");
             let this = this.set_ivars(Ivars::default());
-            unsafe { msg_send_id![super(this), initWithNibName: nib_name_or_nil, bundle: nib_bundle_or_nil] }
+            unsafe {
+                msg_send_id![super(this), initWithNibName: nib_name_or_nil, bundle: nib_bundle_or_nil]
+            }
         }
 
         #[method_id(initWithCoder:)]
-        fn _init_with_coder(
-            this: Allocated<Self>,
-            coder: &NSCoder,
-        ) -> Option<Retained<Self>> {
+        fn _init_with_coder(this: Allocated<Self>, coder: &NSCoder) -> Option<Retained<Self>> {
             tracing::info!("library init");
             let this = this.set_ivars(Ivars::default());
             unsafe { msg_send_id![super(this), initWithCoder: coder] }
@@ -87,11 +94,7 @@ declare_class!(
 
         #[method(prepareForSegue:sender:)]
         #[allow(deprecated)]
-        fn _prepare_for_segue(
-            &self,
-            segue: &UIStoryboardSegue,
-            sender: Option<&NSObject>,
-        ) {
+        fn _prepare_for_segue(&self, segue: &UIStoryboardSegue, sender: Option<&NSObject>) {
             self.prepare_for_segue(segue, sender.expect("has sender"));
         }
     }
@@ -103,14 +106,23 @@ declare_class!(
         fn _set_logo_view(&self, view: Option<&PlayerView>) {
             tracing::trace!("library set logo view");
             let view = view.expect("logo view not null");
-            assert!(view.isKindOfClass(PlayerView::class()), "logo view not a PlayerView");
-            self.ivars().logo_view.set(view.retain()).expect("only set logo view once");
+            assert!(
+                view.isKindOfClass(PlayerView::class()),
+                "logo view not a PlayerView"
+            );
+            self.ivars()
+                .logo_view
+                .set(view.retain())
+                .expect("only set logo view once");
         }
 
         #[method(toggleEditing:)]
         fn _toggle_editing(&self, button: &UIBarButtonItem) {
             tracing::trace!("library toggle editing");
-            assert!(button.isKindOfClass(UIBarButtonItem::class()), "edit button not UIBarButtonItem");
+            assert!(
+                button.isKindOfClass(UIBarButtonItem::class()),
+                "edit button not UIBarButtonItem"
+            );
             self.toggle_editing(button);
         }
 
@@ -124,6 +136,41 @@ declare_class!(
             self.save_item(segue);
         }
     }
+
+    #[allow(non_snake_case)]
+    unsafe impl UITableViewDataSource for LibraryController {
+        #[method(tableView:numberOfRowsInSection:)]
+        fn tableView_numberOfRowsInSection(
+            &self,
+            _table_view: &UITableView,
+            _section: NSInteger,
+        ) -> NSInteger {
+            self.ivars().bundles.borrow().len() as NSInteger
+        }
+
+        #[method(numberOfSectionsInTableView:)]
+        fn numberOfSectionsInTableView(&self, _table_view: &UITableView) -> NSInteger {
+            1
+        }
+
+        #[method_id(tableView:cellForRowAtIndexPath:)]
+        fn tableView_cellForRowAtIndexPath(
+            &self,
+            table_view: &UITableView,
+            index_path: &NSIndexPath,
+        ) -> Retained<UITableViewCell> {
+            self.cell_at(table_view, index_path)
+        }
+
+        #[method_id(tableView:titleForHeaderInSection:)]
+        fn tableView_titleForHeaderInSection(
+            &self,
+            _table_view: &UITableView,
+            _section: NSInteger,
+        ) -> Option<Retained<NSString>> {
+            Some(NSString::from_str("Library"))
+        }
+    }
 );
 
 impl LibraryController {
@@ -135,6 +182,18 @@ impl LibraryController {
         tracing::info!("library viewDidLoad");
 
         self.setup_logo();
+
+        let mut bundles = self.ivars().bundles.borrow_mut();
+        bundles.push(BundleInformation {
+            name: "Example SWF".into(),
+            url: Url::parse("file:///example.swf").unwrap(),
+            player: PlayerOptions::default(),
+        });
+        bundles.push(BundleInformation {
+            name: "Another example".into(),
+            url: Url::parse("file:///example2.swf").unwrap(),
+            player: PlayerOptions::default(),
+        });
     }
 
     fn setup_logo(&self) {
@@ -192,7 +251,14 @@ impl LibraryController {
             assert!(destination.isKindOfClass(EditController::class()));
             let edit_controller = unsafe { Retained::cast::<EditController>(destination) };
 
-            edit_controller.configure(Action::New, PlayerOptions::default());
+            edit_controller.configure(
+                Action::New,
+                BundleInformation {
+                    name: "".into(),
+                    url: Url::parse("file://").unwrap(),
+                    player: PlayerOptions::default(),
+                },
+            );
         } else if &*identifier == ns_string!("edit-item") {
             assert!(destination.isKindOfClass(EditController::class()));
             let edit_controller = unsafe { Retained::cast::<EditController>(destination) };
@@ -200,7 +266,14 @@ impl LibraryController {
             let cell = unsafe { &*(sender as *const NSObject as *const UITableViewCell) };
 
             // TODO
-            edit_controller.configure(Action::Edit, PlayerOptions::default());
+            edit_controller.configure(
+                Action::Edit,
+                BundleInformation {
+                    name: "".into(),
+                    url: Url::parse("file://").unwrap(),
+                    player: PlayerOptions::default(),
+                },
+            );
             dbg!(cell);
         } else if &*identifier == ns_string!("run-item") {
             assert!(destination.isKindOfClass(PlayerController::class()));
@@ -234,6 +307,30 @@ impl LibraryController {
             } else {
                 ns_string!("Edit")
             }));
+        }
+    }
+
+    fn cell_at(
+        &self,
+        table_view: &UITableView,
+        index_path: &NSIndexPath,
+    ) -> Retained<UITableViewCell> {
+        let bundle = &self.ivars().bundles.borrow()[unsafe { index_path.row() } as usize];
+
+        unsafe {
+            let cell = table_view.dequeueReusableCellWithIdentifier_forIndexPath(
+                ns_string!("library-item"),
+                index_path,
+            );
+            let subviews = cell.contentView().subviews();
+
+            let title = Retained::cast::<UILabel>(subviews.objectAtIndex(1));
+            title.setText(Some(&NSString::from_str(&bundle.name)));
+
+            let subtitle = Retained::cast::<UILabel>(subviews.objectAtIndex(2));
+            subtitle.setText(Some(&NSString::from_str(&bundle.url.to_string())));
+
+            cell
         }
     }
 }

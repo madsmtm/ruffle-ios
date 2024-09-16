@@ -13,14 +13,13 @@ use objc2_ui_kit::{
     UITableViewCell, UITableViewDataSource, UITableViewDelegate, UITextField, UIViewController,
 };
 use ruffle_core::{LoadBehavior, PlayerRuntime, StageAlign, StageScaleMode};
+use ruffle_frontend_utils::bundle::info::BundleInformation;
 use ruffle_frontend_utils::player_options::PlayerOptions;
 use ruffle_render::quality::StageQuality;
 
 #[derive(Clone, Copy, Debug)]
 enum FormElement {
-    RootName {
-        text: fn(&PlayerOptions) -> String,
-    },
+    Name,
     Source,
     String {
         label: &'static str,
@@ -39,13 +38,8 @@ enum FormElement {
 
 // TODO: Localization
 const FORM: &[&[FormElement]] = &[
-    // Required / code
-    &[
-        FormElement::RootName {
-            text: |_| "Foo".into(),
-        },
-        FormElement::Source,
-    ],
+    // Required
+    &[FormElement::Name, FormElement::Source],
     // General options
     &[
         FormElement::String {
@@ -225,7 +219,7 @@ pub struct Ivars {
     navigation_item: OnceCell<Retained<UINavigationItem>>,
     table_view: OnceCell<Retained<UITableView>>,
     action: Cell<Action>,
-    current_options: RefCell<PlayerOptions>,
+    info: RefCell<Option<BundleInformation>>,
 }
 
 declare_class!(
@@ -318,7 +312,8 @@ declare_class!(
             section: NSInteger,
         ) -> NSInteger {
             if FORM.len() == section as usize {
-                let options = self.ivars().current_options.borrow();
+                let info = self.ivars().info.borrow();
+                let options = &info.as_ref().expect("initialized").player;
                 options.parameters.len() as NSInteger + 1
             } else {
                 FORM[section as usize].len() as NSInteger
@@ -346,16 +341,13 @@ declare_class!(
 );
 
 impl EditController {
-    pub fn configure(&self, action: Action, options: PlayerOptions) {
+    pub fn configure(&self, action: Action, info: BundleInformation) {
         self.ivars().action.set(action);
-        *self.ivars().current_options.borrow_mut() = options;
+        *self.ivars().info.borrow_mut() = Some(info);
     }
 
     fn view_did_load(&self) {
         tracing::info!("edit viewDidLoad");
-
-        // Initialize table
-        let table = self.ivars().table_view.get().expect("table view");
     }
 
     fn view_will_appear(&self) {
@@ -392,7 +384,9 @@ impl EditController {
         index_path: &NSIndexPath,
     ) -> Retained<UITableViewCell> {
         let mtm = MainThreadMarker::from(self);
-        let options = self.ivars().current_options.borrow();
+        let info = self.ivars().info.borrow();
+        let info = info.as_ref().expect("initialized info");
+        let options = &info.player;
         unsafe {
             let section = index_path.section() as usize;
             let row = index_path.row() as usize;
@@ -419,7 +413,7 @@ impl EditController {
             }
 
             match FORM[section][row] {
-                FormElement::RootName { text } => {
+                FormElement::Name => {
                     let cell = table_view.dequeueReusableCellWithIdentifier_forIndexPath(
                         ns_string!("root-name"),
                         index_path,
@@ -427,15 +421,19 @@ impl EditController {
                     let input = Retained::cast::<UITextField>(
                         cell.contentView().subviews().objectAtIndex(0),
                     );
-                    input.setText(Some(&NSString::from_str(&text(&options))));
+                    input.setText(Some(&NSString::from_str(&info.name)));
                     cell
                 }
+                // TODO
                 FormElement::Source => {
                     let cell = table_view.dequeueReusableCellWithIdentifier_forIndexPath(
                         ns_string!("root-name"),
                         index_path,
                     );
-                    // TODO
+                    let input = Retained::cast::<UITextField>(
+                        cell.contentView().subviews().objectAtIndex(0),
+                    );
+                    input.setText(Some(&NSString::from_str(&info.url.to_string())));
                     cell
                 }
                 FormElement::String { label, text } => {
@@ -531,14 +529,5 @@ impl EditController {
                 }
             }
         }
-    }
-
-    fn table_data(&self) -> PlayerOptions {
-        let table = self.ivars().table_view.get().expect("table view");
-        todo!()
-    }
-
-    fn set_table_data(&self, options: &PlayerOptions) {
-        let table = self.ivars().table_view.get().expect("table view");
     }
 }
