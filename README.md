@@ -1,5 +1,9 @@
 # The Ruffle Flash Player emulator on iOS
 
+Work in progress.
+
+See [ruffle.rs](https://ruffle.rs/) for a general introduction.
+
 
 ## Design choices
 
