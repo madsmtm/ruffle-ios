@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		EC3BA0B72C93A6CA0072939D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = EC3BA0B62C93A6CA0072939D /* Base */; };
-		EC3BA0BA2C93A6CA0072939D /* Ruffle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC3BA0B82C93A6CA0072939D /* Ruffle.xcdatamodeld */; };
 		EC3BA0BC2C93A6CB0072939D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC3BA0BB2C93A6CB0072939D /* Assets.xcassets */; };
 		EC3BA0BF2C93A6CB0072939D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = EC3BA0BE2C93A6CB0072939D /* Base */; };
 /* End PBXBuildFile section */
@@ -16,7 +15,6 @@
 /* Begin PBXFileReference section */
 		EC3BA0A92C93A6CA0072939D /* ruffle-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ruffle-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC3BA0B62C93A6CA0072939D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		EC3BA0B92C93A6CA0072939D /* ruffle_ios.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ruffle_ios.xcdatamodel; sourceTree = "<group>"; };
 		EC3BA0BB2C93A6CB0072939D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EC3BA0BE2C93A6CB0072939D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EC3BA0C02C93A6CB0072939D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -37,7 +35,6 @@
 				EC3BA0BD2C93A6CB0072939D /* LaunchScreen.storyboard */,
 				EC3BA0B52C93A6CA0072939D /* Main.storyboard */,
 				EC3BA0BB2C93A6CB0072939D /* Assets.xcassets */,
-				EC3BA0B82C93A6CA0072939D /* Ruffle.xcdatamodeld */,
 				ECEA01DB2C948F9A00C9D3D6 /* build-in-xcode.sh */,
 				EC3BA0CC2C93A8890072939D /* Cargo.toml */,
 				EC3BA0CB2C93A8890072939D /* Cargo.lock */,
@@ -170,7 +167,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EC3BA0BA2C93A6CA0072939D /* Ruffle.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,19 +402,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		EC3BA0B82C93A6CA0072939D /* Ruffle.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				EC3BA0B92C93A6CA0072939D /* ruffle_ios.xcdatamodel */,
-			);
-			currentVersion = EC3BA0B92C93A6CA0072939D /* ruffle_ios.xcdatamodel */;
-			path = Ruffle.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = EC3BA0A12C93A6CA0072939D /* Project object */;
 }

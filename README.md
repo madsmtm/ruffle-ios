@@ -27,17 +27,43 @@ Similar to https://getutm.app/, we should have:
   - Context menu "play, rewind, forward, back, etc."?
   - Allow changing between scale
   - Back button to go back to library
+- "Add" and "edit" are two different flows, and should show two different UIs
+  - "Add" doesn't have to show all the extra settings; it is only about getting the file. The user can edit it later.
 
 ## Library item settings
 
-Settings are stored per SWF / per "Ruffle Bundle" / per saved link. The UI does not significantly differentiate between these.
+Settings are stored per Ruffle Bundle.
 
+- `PlayerOptions`
+  - https://github.com/ruffle-rs/ruffle/blob/master/frontend-utils/src/bundle/README.md#player
 - Inputs:
   - Configurable
   - Swipe for arrow keys?
   - https://openemu.org/ does it pretty well, equivalent for iOS?
-- Player settings:
-  - https://github.com/ruffle-rs/ruffle/blob/master/frontend-utils/src/bundle/README.md#player
+- Custom name?
+- Custom image?
+
+
+## Storage ideas
+
+Goals:
+- Store a Ruffle bundle.
+- Store user settings.
+- Store data the SWF itself may have stored (the key-value store).
+- Sync to iCloud.
+- Be backwards and forwards compatible with new versions of the Ruffle app.
+  - Upheld for [Ruffle Bundles](https://discord.com/channels/610531541889581066/1225519553916829736/1232031955751665777).
+
+So, we want to support several modes of launching:
+- Import bundle permanently.
+- Open a Ruffle Bundle without importing.
+- What happens when a bundle has moved relative to the user settings?
+
+Bundles, when imported, are unpackaged from zip, renamed to `bundle.ruf` and moved to `library/$random_uuid/`, to not conflict with other bundles with the same name. Imported SWFs are converted to a Ruffle bundle with `name = "file_stem", url = "file:///file_stem.swf"`. The files are stored on disk in the application's directory. User settings are stored in `settings.toml` next to `bundle.ruf`. Application data in `app_data/`.
+
+Rule for syncing is "newest wins". This _should_ be fine if e.g. the user has modified their settings on two different devices, though might require different logic for application data.
+
+Note that we _could_ have used a Core Data model, but that's difficult and won't really help us when our settings is mostly defined by the Ruffle Bundle.
 
 
 ## Terminology
