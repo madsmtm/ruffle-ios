@@ -192,7 +192,7 @@ impl LibraryController {
             assert!(destination.isKindOfClass(EditController::class()));
             let edit_controller = unsafe { Retained::cast::<EditController>(destination) };
 
-            edit_controller.set_action(Action::New);
+            edit_controller.configure(Action::New, PlayerOptions::default());
         } else if &*identifier == ns_string!("edit-item") {
             assert!(destination.isKindOfClass(EditController::class()));
             let edit_controller = unsafe { Retained::cast::<EditController>(destination) };
@@ -200,7 +200,7 @@ impl LibraryController {
             let cell = unsafe { &*(sender as *const NSObject as *const UITableViewCell) };
 
             // TODO
-            edit_controller.set_action(Action::Edit(PlayerOptions::default()));
+            edit_controller.configure(Action::Edit, PlayerOptions::default());
             dbg!(cell);
         } else if &*identifier == ns_string!("run-item") {
             assert!(destination.isKindOfClass(PlayerController::class()));
